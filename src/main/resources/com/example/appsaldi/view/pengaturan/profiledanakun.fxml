@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="900.0" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefHeight="30.0" prefWidth="200.0" styleClass="title" text="Profile &amp; Akun" />
+      <Label layoutX="35.0" layoutY="20.0" styleClass="text-regular" text="Nama Lengkap">
+         <VBox.margin>
+            <Insets bottom="5.0" top="20.0" />
+         </VBox.margin>
+      </Label>
+      <TextField prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="35.0" layoutY="37.0" styleClass="text-regular" text="Username">
+         <VBox.margin>
+            <Insets bottom="5.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <TextField layoutX="35.0" layoutY="54.0" />
+      <Label layoutX="35.0" layoutY="79.0" styleClass="text-regular" text="Kata Sandi">
+         <VBox.margin>
+            <Insets bottom="5.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="200.0">
+         <children>
+            <TextField HBox.hgrow="ALWAYS" />
+            <Region prefHeight="50.0" prefWidth="10.0" />
+            <Button mnemonicParsing="false" styleClass="colored-button" text="Ubah Password" />
+         </children>
+      </HBox>
+      <Label layoutX="35.0" layoutY="121.0" styleClass="text-regular" text="Foto Profile">
+         <VBox.margin>
+            <Insets bottom="5.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <HBox alignment="CENTER_LEFT" layoutX="35.0" layoutY="138.0" prefHeight="35.0" prefWidth="200.0">
+         <children>
+            <TextField HBox.hgrow="ALWAYS" />
+            <Region prefHeight="50.0" prefWidth="10.0" />
+            <Button mnemonicParsing="false" styleClass="colored-button" text="Edit Foto Profile" />
+         </children>
+      </HBox>
+      <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="408.0" styleClass="colored-button" text=" Simpan Perubahan">
+         <VBox.margin>
+            <Insets top="25.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="25.0" right="500.0" top="10.0" />
+   </padding>
+</VBox>

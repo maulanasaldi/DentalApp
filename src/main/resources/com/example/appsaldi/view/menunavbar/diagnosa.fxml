@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="panelDiagnosa" prefHeight="565.0" prefWidth="900.0" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.DiagnosisController">
+   <children>
+      <VBox prefHeight="576.0" prefWidth="350.0">
+         <children>
+            <VBox prefHeight="576.0" prefWidth="100.0" styleClass="form" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="15.0" left="25.0" right="20.0" />
+               </VBox.margin>
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="318.0" styleClass="title" text="Data Pasien" textAlignment="CENTER" />
+                  <Label styleClass="text-regular" text="NIK">
+                     <VBox.margin>
+                        <Insets top="25.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox alignment="CENTER">
+                     <VBox.margin>
+                        <Insets top="7.0" />
+                     </VBox.margin>
+                     <children>
+                        <TextField fx:id="txtNIK" prefHeight="30.0" prefWidth="221.0" styleClass="text-field">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btnCari" mnemonicParsing="false" onAction="#showPopupDataPasien" prefHeight="30.0" prefWidth="70.0" styleClass="colored-button" text="Cari" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Label layoutX="10.0" layoutY="69.0" styleClass="text-regular" text="Nama Pasien">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtNamaPasien" layoutX="10.0" layoutY="86.0" styleClass="textfield">
+                     <VBox.margin>
+                        <Insets top="7.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label layoutX="10.0" layoutY="111.0" styleClass="text-regular" text="Tanggal Lahir">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <DatePicker fx:id="txtTglLahir" prefHeight="30.0" prefWidth="278.0">
+                     <VBox.margin>
+                        <Insets top="7.0" />
+                     </VBox.margin>
+                  </DatePicker>
+                  <Label layoutX="10.0" layoutY="153.0" styleClass="text-regular" text="Alamat">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextArea fx:id="txtAlamat" prefHeight="200.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="7.0" />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="textarea" />
+                        <String fx:value="scroll-pane" />
+                     </styleClass>
+                  </TextArea>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="576.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
+         <children>
+            <VBox prefHeight="576.0" prefWidth="525.0" styleClass="form" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="475.0">
+                     <children>
+                        <TextField fx:id="txtCari" prefHeight="30.0" prefWidth="240.0" styleClass="text-field">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                        <Region prefHeight="40.0" prefWidth="74.0" HBox.hgrow="ALWAYS" />
+                        <Label styleClass="title" text="Input Gejala">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox spacing="10" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <TableView fx:id="tabelGejala" prefHeight="200.0" HBox.hgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="kolomPilih" resizable="false" text="Pilih" />
+                            <TableColumn fx:id="kolomGejala" text="Nama Gejala" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="tabelGejalaDipilih" prefHeight="200.0" HBox.hgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="kolomGejalaDipilih" text="Gejala Dipilih" />
+                              <TableColumn fx:id="kolomAksi" text="Aksi" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btnBatal" mnemonicParsing="false" onAction="#reset" styleClass="colored-button" text="Batal">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../img/icon-light-reset-form.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button fx:id="btnMulaiDiagnosa" mnemonicParsing="false" onAction="#handleDiagnosisButton" styleClass="colored-button" text="Diagnosa">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../img/icon-light-cari.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="15.0" right="25.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="" prefHeight="600.0" prefWidth="600.0" styleClass="root" stylesheets="@../../css/formr/formPopUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.formcontroller.FormRiwayatController">
+   <VBox fx:id="rootVBox" prefHeight="800.0" prefWidth="714.0" styleClass="vbox">
+      <children>
+         <Label prefHeight="27.0" prefWidth="672.0" styleClass="text-judul" text="Riwayat Diagnosa">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin></Label>
+         <VBox prefHeight="632.0" prefWidth="658.0">
+            <children>
+               <HBox prefHeight="90.0" prefWidth="200.0">
+                  <children>
+                     <VBox prefHeight="110.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label styleClass="text-label" text="Nama Pasien" textFill="#280f0f">
+                              <VBox.margin>
+                                 <Insets bottom="5.0" />
+                              </VBox.margin></Label>
+                           <HBox alignment="CENTER_LEFT" prefHeight="30.0">
+                              <children>
+                                 <TextField fx:id="txtNamaPasien" prefHeight="30.0" prefWidth="250.0" />
+                                 <Button fx:id="btnCariPasien" layoutX="189.0" layoutY="10.0" mnemonicParsing="false" onAction="#showPopupDataPasien" prefHeight="30.0" prefWidth="100.0" styleClass="button-handle-popup" text="Cari">
+                                    <HBox.margin>
+                                       <Insets left="10.0" />
+                                    </HBox.margin>
+                                    <cursor>
+                                       <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                 </Button>
+                              </children>
+                           </HBox>
+                        </children>
+                     </VBox>
+                     <VBox prefHeight="200.0" HBox.hgrow="ALWAYS">
+                        <children>
+                           <Label styleClass="text-label" text="Tanggal Diagnosa">
+                              <VBox.margin>
+                                 <Insets bottom="5.0" />
+                              </VBox.margin></Label>
+                           <DatePicker fx:id="dpTanggal" prefHeight="30.0" prefWidth="260.0">
+                              <VBox.margin>
+                                 <Insets />
+                              </VBox.margin>
+                           </DatePicker>
+                        </children>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                     </VBox>
+                  </children>
+               </HBox>
+               <HBox alignment="BOTTOM_CENTER" prefHeight="30.0" prefWidth="200.0">
+                  <children>
+                     <Label styleClass="text-label" text="Penyakit" />
+                     <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                     <Button fx:id="btnCariPenyakit" mnemonicParsing="false" onAction="#showPopupDataPenyakit" prefHeight="30.0" styleClass="button-handle-popup" text="Cari">
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                     </Button>
+                  </children>
+               </HBox>
+               <TextArea fx:id="txtPenyakit" prefHeight="100.0" prefWidth="200.0">
+                  <VBox.margin>
+                     <Insets top="10.0" />
+                  </VBox.margin>
+               </TextArea>
+               <HBox alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="120.0" prefHeight="30.0" prefWidth="200.0">
+                  <children>
+                     <Label styleClass="text-label" text="Gejala" />
+                     <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                     <Button fx:id="btnCariGejala" mnemonicParsing="false" onAction="#showPopupDataGejala" prefHeight="30.0" styleClass="button-handle-popup" text="Cari">
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                     </Button>
+                  </children>
+                  <VBox.margin>
+                     <Insets top="20.0" />
+                  </VBox.margin>
+               </HBox>
+               <TextArea fx:id="txtGejala" layoutX="10.0" layoutY="160.0" prefHeight="200.0" prefWidth="200.0">
+                  <VBox.margin>
+                     <Insets top="10.0" />
+                  </VBox.margin>
+               </TextArea>
+            </children>
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin>
+         </VBox>
+         <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="655.0">
+            <children>
+               <Button fx:id="btnBatal" mnemonicParsing="false" styleClass="button-handle-form" text="Keluar">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+               </Button>
+               <Button fx:id="btnSimpan" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="button-handle-form" text="Simpan">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+               </Button>
+            </children>
+            <VBox.margin>
+               <Insets left="20.0" right="20.0" top="15.0" />
+            </VBox.margin>
+         </HBox>
+      </children>
+   </VBox>
+</StackPane>

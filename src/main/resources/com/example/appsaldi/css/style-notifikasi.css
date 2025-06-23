@@ -1,0 +1,10 @@
+.notification-pane .label {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.notification-pane {
+    -fx-background-color: linear-gradient(to right, #2196f3, #21cbf3);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}

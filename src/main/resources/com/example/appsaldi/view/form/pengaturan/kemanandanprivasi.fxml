@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="900.0" stylesheets="@../../../css/keamanandanprivasi.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefHeight="30.0" prefWidth="200.0" styleClass="title" text="Profile &amp; Akun">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+         <children>
+            <Label styleClass="text-label" text="Autentikasi  Dua Faktor (2FA)" />
+            <Region prefHeight="30.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="toggleSwitch" contentDisplay="CENTER" mnemonicParsing="false" styleClass="toggle-switch" textAlignment="CENTER" />
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="35.0" layoutY="70.0" prefHeight="30.0" prefWidth="200.0">
+         <children>
+            <Label styleClass="text-label" text="Autentikasi  Dua Faktor (2FA)" />
+            <Region prefHeight="30.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
+            <ToggleButton fx:id="toggleSwitch1" contentDisplay="CENTER" mnemonicParsing="false" styleClass="toggle-switch" textAlignment="CENTER" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="25.0" right="500.0" top="10.0" />
+   </padding>
+</VBox>

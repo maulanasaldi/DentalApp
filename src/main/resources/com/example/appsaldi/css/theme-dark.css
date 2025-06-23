@@ -1,0 +1,245 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../css/fonts/Poppins/Poppins-Regular.ttf");
+}
+
+.root {
+    -fx-background-color: #0F1C2E;
+    -fx-text-fill: #FFFFFF;
+}
+
+.side-bar {
+    -fx-border-color: #374357;
+    -fx-border-width: 0px 2px 0px 0px;
+    -fx-border-style: solid;
+}
+
+.title {
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-text-fill: #FFFFFF;
+}
+.title-right-side-bar {
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-text-fill: #006DFF;
+}
+
+.transparent-button {
+    -fx-font-family: "Poppins";
+    -fx-background-color: #0F1C2E;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-alignment: center-left;
+}
+.transparent-button:hover {
+    -fx-background-color: #3E3E40;
+    -fx-font-weight: bold;
+}
+.transparent-button:focused {
+    -fx-background-color: #1F3A5F;
+    -fx-font-weight: bold;
+}
+
+.bg-icon-side-bar {
+    -fx-padding: 5px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #1F2B3E;
+}
+
+.colored-button {
+    -fx-background-color: #1F3A5F;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-radius: 10px;
+    -fx-font-family: "Poppins Regular";
+    -fx-font-size: 14;
+}
+.colored-button:hover {
+    -fx-background-color: #3E3E40;
+    -fx-font-weight: bold;
+}
+.colored-button:selected {
+    -fx-background-color: #1F3A5F;
+    -fx-font-weight: bold;
+}
+
+.title-semi-bold {
+    -fx-font-family: "Poppins SemiBold";
+    -fx-font-size: 28px;
+    -fx-text-fill: #FFFFFF;
+}
+.name-user-top-bar {
+    -fx-font-family: "Poppins SemiBold";
+    -fx-font-size: 14px;
+    -fx-text-fill: #FFFFFF
+}
+.status-top-bar {
+    -fx-font-family: "Poppins Regular";
+    -fx-font-size: 12px;
+    -fx-text-fill: #FFFFFF;
+}
+.title-dashboard {
+    -fx-font-family: "Poppins Regular";
+    -fx-font-size: 20px;
+    -fx-text-fill: #FFFFFF;
+}
+.title-jumlah-dashboard {
+    -fx-font-family: "Poppins Bold";
+    -fx-font-size: 60px;
+    -fx-text-fill: #FFFFFF;
+}
+.title-penyakit-dashboard {
+    -fx-font-family: "Poppins Bold";
+    -fx-font-size: 50px;
+    -fx-text-fill: #FFFFFF;
+}
+.title-medium-dashboard {
+    -fx-font-family: "Poppins Medium";
+    -fx-font-size: 30px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.pane-informasi-dashboard {
+   -fx-background-color: linear-gradient(to right, #1F3A5F, #4D648D);
+   -fx-border-radius: 20px;
+   -fx-background-radius: 20px;
+}
+
+.form {
+    -fx-background-color: #1F2B3E;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 25px;
+    -fx-font-family: "Poppins";
+}
+
+.text-field {
+    -fx-font-family: "Poppins";
+    -fx-background-color: #D9D9D9;
+    -fx-text-fill: #787878;
+    -fx-font-size: 14px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-pref-height: 130;
+}
+
+.text-area {
+    -fx-background-color: #D9D9D9;
+    -fx-control-inner-background: #D9D9D9;
+    -fx-faint-focus-color: transparent;
+    -fx-text-fill: #787878;
+    -fx-wrap-text: true;
+    -fx-font-size: 14px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 5px 15px;
+}
+
+.text-area .content {
+    -fx-background-color: #D9D9D9;
+}
+
+.text-regular {
+    -fx-font-family: "Poppins";
+    -fx-font-size: 14;
+    -fx-text-fill: #FFFFFF;
+}
+
+.text-regular-bold {
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+.table-view-gejala .column-header-background {
+    visibility: hidden;
+    -fx-padding: 0;
+}
+
+.table-view-gejala {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.toggle-button {
+    -fx-font-family: "Poppins";
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14;
+    -fx-background-radius: 25;
+}
+
+.toggle-button:hover {
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+    -fx-background-color: #71C4EF;
+}
+
+.toggle-button:selected {
+    -fx-font-family: "Poppins";
+    -fx-background-color: #71C4EF;
+    -fx-font-weight: bold;
+}
+
+.table-view {
+    -fx-background-color: #1F2B3E;
+    -fx-border-color: #ddd;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-padding: 0;
+    -fx-font-family: "Poppins";
+}
+
+/* Header background (pojok atas) */
+.table-view .column-header-background {
+    -fx-background-color: #4D648D;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10px 10px 0px 0px;
+    -fx-background-radius: 10px 10px 0px 0px;
+    -fx-font-size: 14px;
+}
+
+/* Header kolom */
+.table-view .column-header, .table-view .filler {
+    -fx-size: 40px;
+    -fx-background-color: transparent;
+    -fx-border-color: #ddd;
+    -fx-font-weight: bold;
+    -fx-alignment: left;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+}
+
+/* Baris tabel */
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #eee;
+    -fx-border-width: 0 0 1px 0;
+    -fx-background-insets: 0;
+}
+
+/* Baris ganjil */
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+/* Baris dipilih */
+.table-row-cell:selected {
+    -fx-background-color: #bbdefb;
+    -fx-text-fill: black;
+}
+
+/* Sel tabel */
+.table-cell {
+    -fx-padding: 10px;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 1px 0 0;
+}
+
+/* Bagian bawah: buat radius di baris terakhir agar pojok bawah rounded */
+.table-row-cell:last-of-type {
+    -fx-background-radius: 0 0 10px 10px;
+    -fx-border-radius: 0 0 10px 10px;
+}

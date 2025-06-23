@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="565.0" prefWidth="900.0" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button" VBox.vgrow="ALWAYS">
+         <graphic>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/icon-light-setting-profile.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="text-regular-bold" text="Profil Akun" />
+                        <Label styleClass="text-regular" text="Ubah nama, email, kata sandi, dan foto profil" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </graphic>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button layoutX="35.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button">
+         <graphic>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/icon-light-tentang-aplikasi.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="text-regular-bold" text="Tentang Aplikasi" />
+                        <Label styleClass="text-regular" text="Informasi versi aplikasi dan pembaruan sistem" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </graphic>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button layoutX="35.0" layoutY="170.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button">
+         <graphic>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/icon-light-keluar.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="text-regular-bold" text="Keluar / Logout" />
+                        <Label styleClass="text-regular" text="Tombol untuk keluar dari aplikasi" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="25.0" right="25.0" top="10.0" />
+   </padding>
+</VBox>

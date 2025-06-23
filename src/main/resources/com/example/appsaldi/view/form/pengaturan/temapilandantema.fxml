@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="900.0" stylesheets="@../../../css/keamanandanprivasi.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label prefHeight="30.0" prefWidth="200.0" styleClass="title" text="Tampilan &amp; Tema">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+         <children>
+            <Group />
+            <Label styleClass="text-label" text="Mode Tampilan" />
+            <Region prefHeight="0.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
+            <ToggleButton contentDisplay="CENTER" mnemonicParsing="false" styleClass="toggle-switch" stylesheets="@../../../css/keamanandanprivasi.css" text="Terang" textAlignment="CENTER" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="35.0" layoutY="55.0" prefHeight="30.0" prefWidth="200.0">
+         <children>
+            <Group />
+            <Label styleClass="text-label" text="Ukuran Teks" />
+            <Region prefHeight="0.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
+            <Slider />
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="35.0" layoutY="55.0" prefHeight="30.0" prefWidth="200.0">
+         <children>
+            <Group />
+            <Label styleClass="text-label" text="Bahasa" />
+            <Region prefHeight="0.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
+            <ComboBox prefWidth="150.0" />
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="25.0" right="500.0" top="10.0" />
+   </padding>
+</VBox>

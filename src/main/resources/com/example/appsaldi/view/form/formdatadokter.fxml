@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="602.0" prefWidth="336.0" styleClass="root" stylesheets="@../../css/formr/formPopUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.formcontroller.FormRegistrasiController">
+   <VBox fx:id="rootVBox" prefHeight="630.0" prefWidth="336.0" styleClass="vbox">
+      <children>
+         <Label prefHeight="25.0" prefWidth="573.0" styleClass="text-judul" text="Tambah Data Dokter">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin></Label>
+         <HBox prefHeight="502.0" prefWidth="294.0">
+            <children>
+               <VBox prefHeight="467.0" prefWidth="294.0" styleClass="form">
+                  <children>
+                     <Label styleClass="text-label" text="Kode Dokter">
+                        <VBox.margin>
+                           <Insets bottom="5.0" top="5.0" />
+                        </VBox.margin></Label>
+                     <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" styleClass="text-field">
+                        <children>
+                           <TextField prefHeight="30.0" prefWidth="450.0" styleClass="button">
+                              <HBox.margin>
+                                 <Insets right="10.0" />
+                              </HBox.margin></TextField>
+                           <Region prefHeight="200.0" prefWidth="200.0" />
+                        </children>
+                     </HBox>
+                     <Label layoutX="30.0" layoutY="30.0" styleClass="text-label" text="Nama Dokter">
+                        <VBox.margin>
+                           <Insets bottom="5.0" top="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="47.0" prefHeight="30.0" prefWidth="200.0" styleClass="text-field">
+                        <children>
+                           <TextField prefHeight="30.0" prefWidth="450.0" styleClass="button">
+                              <HBox.margin>
+                                 <Insets right="15.0" />
+                              </HBox.margin>
+                           </TextField>
+                        </children>
+                     </HBox>
+                     <Label layoutX="30.0" layoutY="97.0" styleClass="text-label" text="Tanggal Lahir">
+                        <VBox.margin>
+                           <Insets bottom="5.0" top="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="114.0" prefHeight="30.0" prefWidth="200.0" styleClass="text-field">
+                        <children>
+                           <TextField prefHeight="30.0" prefWidth="450.0" styleClass="button">
+                              <HBox.margin>
+                                 <Insets right="10.0" />
+                              </HBox.margin>
+                           </TextField>
+                           <Region prefHeight="200.0" prefWidth="200.0" />
+                           <Button alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="button-text-field" textAlignment="CENTER">
+                              <graphic>
+                                 <ImageView fitHeight="19.0" fitWidth="20.0" pickOnBounds="true" smooth="false">
+                                    <image>
+                                       <Image url="@../../img/icon-light-tanggal.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                              <cursor>
+                                 <Cursor fx:constant="HAND" />
+                              </cursor>
+                           </Button>
+                        </children>
+                     </HBox>
+                     <Label layoutX="30.0" layoutY="110.0" styleClass="text-label" text="No. Telepon">
+                        <VBox.margin>
+                           <Insets top="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="135.0" prefHeight="30.0" prefWidth="200.0" styleClass="text-field">
+                        <children>
+                           <TextField prefHeight="30.0" prefWidth="450.0" styleClass="button">
+                              <HBox.margin>
+                                 <Insets right="15.0" />
+                              </HBox.margin>
+                           </TextField>
+                        </children>
+                     </HBox>
+                     <Label layoutX="30.0" layoutY="185.0" styleClass="text-label" text="Hari Praktik">
+                        <VBox.margin>
+                           <Insets top="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="205.0" prefHeight="30.0" prefWidth="200.0" styleClass="text-field">
+                        <children>
+                           <TextField prefHeight="30.0" prefWidth="450.0" styleClass="button">
+                              <HBox.margin>
+                                 <Insets right="15.0" />
+                              </HBox.margin>
+                           </TextField>
+                        </children>
+                     </HBox>
+                     <Label layoutX="30.0" layoutY="330.0" styleClass="text-label" text="Hari Praktik">
+                        <VBox.margin>
+                           <Insets top="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="350.0" prefHeight="30.0" prefWidth="200.0" styleClass="text-field">
+                        <children>
+                           <TextField prefHeight="30.0" prefWidth="450.0" styleClass="button">
+                              <HBox.margin>
+                                 <Insets right="15.0" />
+                              </HBox.margin>
+                           </TextField>
+                        </children>
+                     </HBox>
+                     <Label layoutX="30.0" layoutY="164.0" styleClass="text-label" text="Jenis Kelamin">
+                        <VBox.margin>
+                           <Insets bottom="5.0" top="15.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="181.0" prefHeight="30.0" prefWidth="200.0" styleClass="background-transparent">
+                        <children>
+                           <RadioButton mnemonicParsing="false" prefHeight="20.0" prefWidth="94.0" text="Laki-Laki" />
+                           <RadioButton layoutX="25.0" layoutY="15.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="111.0" text="Perempuan">
+                              <HBox.margin>
+                                 <Insets left="10.0" />
+                              </HBox.margin>
+                           </RadioButton>
+                        </children>
+                     </HBox>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="417.0">
+            <children>
+               <Button fx:id="btnBatal" mnemonicParsing="false" onAction="#handleBatal" styleClass="button-handle-form" text="Batal">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="button-handle-form" text="Simpan">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+               </Button>
+            </children>
+            <VBox.margin>
+               <Insets right="20.0" />
+            </VBox.margin>
+         </HBox>
+      </children>
+   </VBox>
+</StackPane>
