@@ -1,7 +1,6 @@
 package com.example.appsaldi.controller;
 
 import com.example.appsaldi.connectiondb.ConnectionDB;
-import com.example.appsaldi.controller.poopupcontroller.PopupDataPasienController;
 import com.example.appsaldi.controller.poopupcontroller.PopupDataPendaftarController;
 import com.example.appsaldi.controller.poopupcontroller.PopupDiagnosisResultController;
 import com.example.appsaldi.dao.DiagnosaDAO;
