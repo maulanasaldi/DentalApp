@@ -23,4 +23,8 @@ module com.example.appsaldi {
     opens com.example.appsaldi.controller.poopupcontroller to javafx.fxml;
     exports com.example.appsaldi.controller.formcontroller;
     opens com.example.appsaldi.controller.formcontroller to javafx.fxml;
+    exports com.example.appsaldi.dao;
+    opens com.example.appsaldi.dao to javafx.base;
+    exports com.example.appsaldi.controller.pengaturan;
+    opens com.example.appsaldi.controller.pengaturan to javafx.fxml;
 }

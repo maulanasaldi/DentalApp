@@ -1,5 +1,6 @@
 package com.example.appsaldi.controller.poopupcontroller;
 
+import com.example.appsaldi.controller.formcontroller.FormAturanController;
 import com.example.appsaldi.controller.formcontroller.FormRiwayatController;
 import com.example.appsaldi.dao.GejalaDAO;
 import com.example.appsaldi.dao.PenyakitDAO;
@@ -29,6 +30,8 @@ public class PopupDataGejalaController implements PopupMultiSelectController<Gej
     @FXML private TableView<Gejala> tblDataGejala;
 
     @Setter private FormRiwayatController parentFormRiwayatController;
+    @Setter private FormAturanController parenFormAturanController;
+    @Setter private PopupMode mode = PopupMode.FORM_RIWAYAT;
 
     private final ObservableList<Gejala> masterData = FXCollections.observableArrayList();
     private Consumer<List<Gejala>> listener;

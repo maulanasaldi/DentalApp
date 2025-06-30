@@ -19,10 +19,10 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/com/example/appsaldi/css/style-notifikasi.css").toExternalForm());
 
-            primaryStage.setTitle("Dental Care");
+            primaryStage.setTitle("Saldi Care");
             primaryStage.getIcons().add(
                 new javafx.scene.image.Image(
-                        getClass().getResourceAsStream("/com/example/appsaldi/img/Logo S.png")
+                        getClass().getResourceAsStream("/com/example/appsaldi/img/LogoSaldi.png")
                 )
             );
             primaryStage.setScene(scene);

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="470.0" prefWidth="300.0" styleClass="root" stylesheets="@../../css/formr/formPopUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.formcontroller.FormAturanController">
+   <VBox fx:id="rootVBox" prefHeight="450.0" prefWidth="342.0" styleClass="vbox">
+      <children>
+         <Label prefHeight="27.0" prefWidth="500.0" styleClass="text-judul" text="Tambah Aturan">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin></Label>
+         <HBox prefHeight="320.0" VBox.vgrow="ALWAYS">
+            <children>
+               <VBox prefHeight="500.0" prefWidth="500.0" styleClass="form" HBox.hgrow="ALWAYS">
+                  <children>
+                     <Label layoutX="30.0" layoutY="50.0" styleClass="text-label" text="ID Aturan" />
+                     <Label fx:id="txtIDAturan" layoutX="30.0" layoutY="30.0" styleClass="text-label" text="Auto" />
+                     <Label styleClass="text-label" text="ID Penyakit">
+                        <VBox.margin>
+                           <Insets bottom="5.0" top="20.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox prefHeight="30.0" prefWidth="200.0">
+                        <children>
+                           <TextField fx:id="txtIDPenyakit" prefHeight="30.0" prefWidth="140.0">
+                              <HBox.margin>
+                                 <Insets right="10.0" />
+                              </HBox.margin>
+                           </TextField>
+                           <Button mnemonicParsing="false" onAction="#showPopupDataPenyakit" prefWidth="30.0" styleClass="button-handle-form" text="Cari" />
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                        <children>
+                           <Label prefWidth="150.0" styleClass="text-label" text="ID Gejala" />
+                           <Button mnemonicParsing="false" onAction="#showPopupDataGejala" prefWidth="30.0" styleClass="button-handle-form" text="Cari" />
+                        </children>
+                        <VBox.margin>
+                           <Insets top="20.0" />
+                        </VBox.margin>
+                     </HBox>
+                     <TextArea fx:id="txtIDGejala" prefHeight="150.0" prefWidth="200.0">
+                        <VBox.margin>
+                           <Insets top="10.0" />
+                        </VBox.margin>
+                     </TextArea>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER_RIGHT" prefHeight="30.0">
+            <children>
+               <Button fx:id="btnBatal" mnemonicParsing="false" onAction="#handelBatalInput" styleClass="button-handle-form" text="Keluar">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor></Button>
+               <Button fx:id="btnSimpan" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handelSaveDataAturan" styleClass="button-handle-form" text="Simpan">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+               </Button>
+            </children>
+            <VBox.margin>
+               <Insets right="20.0" />
+            </VBox.margin>
+         </HBox>
+      </children>
+   </VBox>
+</StackPane>

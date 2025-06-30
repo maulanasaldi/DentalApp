@@ -1,13 +1,6 @@
 package com.example.appsaldi.controller;
-
-import com.example.appsaldi.controller.formcontroller.FormGejalaController;
-import com.example.appsaldi.controller.formcontroller.FormPenyakitController;
-import com.example.appsaldi.controller.formcontroller.FormRegistrasiController;
-import com.example.appsaldi.controller.formcontroller.FormRiwayatController;
-import com.example.appsaldi.dao.GejalaDAO;
-import com.example.appsaldi.dao.PasienDAO;
-import com.example.appsaldi.dao.PenyakitDAO;
-import com.example.appsaldi.dao.RiwayatDAO;
+import com.example.appsaldi.controller.formcontroller.*;
+import com.example.appsaldi.dao.*;
 import com.example.appsaldi.model.*;
 import com.example.appsaldi.utils.AlertUtils;
 import javafx.application.Platform;
@@ -28,7 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Setter;
-
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -36,51 +28,52 @@ import java.util.function.Function;
 
 public class DataController {
 
-    @FXML private Label lblNamaData;
-    @FXML private Button btnPasien, btnTambahData, btnEditData;
-    @FXML private HBox menu;
-    @FXML private TextField txtCariData;
-    @FXML private TableView tblData;
-
     @Setter private UsersModel currentUser;
     @Setter private TampilanUtamaController utamaController;
     @Setter private String modeAwal = "Pasien";
 
+    @FXML private Label lblNamaData;
+    @FXML private Button btnTambahData, btnEditData;
+    @FXML private HBox menu;
+    @FXML private TextField txtCariData;
+    @FXML private TableView tblData;
+
     public void setAsRiwayatDiagnosa(){
         tampilkanRiwayatDiagnosa();
     }
-
     public enum JenisData {
-        PASIEN, PENYAKIT, GEJALA, RIWAYAT
+        PASIEN, PENYAKIT, GEJALA, RIWAYAT, ATURAN
     }
-
     private JenisData jenisDataAktif;
 
     @FXML public void initialize() {
-        tampilkanDataPasien();
-        btnPasien.setOnAction(e -> tampilkanDataPasien());
-        txtCariData.textProperty().addListener((obs, oldVal, newVal) -> cariData(newVal));
-        Platform.runLater(this::sembunyikanTombolJikaResepsionis);
-    }
+        Platform.runLater(() -> {
+            if (currentUser != null) {
+                String status = currentUser.getStatus().toLowerCase();
+                switch (status) {
+                    case "resepsionis" -> {
+                        menu.setVisible(false);
+                        menu.setManaged(false);
+                        lblNamaData.setVisible(false);
+                        tampilkanDataPasien();
+                    }
 
-    public void sembunyikanTombolJikaResepsionis() {
-        if (currentUser != null && "resepsionis".equalsIgnoreCase(currentUser.getStatus())) {
-            menu.setVisible(false);
-            menu.setManaged(false);
-            lblNamaData.setVisible(false);
-            lblNamaData.setManaged(false);
-        }
+                    case "dokter" -> {
+                        try {
+                            tampilkanDataPenyakit();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+            txtCariData.textProperty().addListener((obs, oldVal, newVal) -> cariData(newVal));
+        });
     }
 
     @FXML public void showRiwayatDiagnosa(){
         hiddenButton();
         tampilkanRiwayatDiagnosa();
-        tblData.refresh();
-    }
-
-    @FXML private void showDataPasien(){
-        showButton();
-        tampilkanDataPasien();
         tblData.refresh();
     }
 
@@ -96,6 +89,12 @@ public class DataController {
         tblData.refresh();
     }
 
+    @FXML private void showDataAturan() throws SQLException {
+        showButton();
+        tampilkanDataAturan();
+        tblData.refresh();
+    }
+
     private void showButton() {
         btnTambahData.setVisible(true);
         btnEditData.setVisible(true);
@@ -106,12 +105,10 @@ public class DataController {
         btnTambahData.setManaged(false);
     }
 
-    // Menampilkan data pasien
     public void tampilkanDataPasien() {
         try {
             jenisDataAktif = JenisData.PASIEN;
             tblData.getColumns().clear();
-
             tblData.getColumns().addAll(
                     createResizableColumn("ID", "idPasien", 5),
                     createResizableColumn("Nama Pasien", "namaPasien", 20),
@@ -121,58 +118,46 @@ public class DataController {
                     createResizableColumn("No. Telepon", "noTlpPasien", 12),
                     createResizableColumn("Alamat", "alamatPasien", 30)
             );
-
             setTableData(FXCollections.observableArrayList(new PasienDAO().getAllPasien()), "Data Pasien");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Menampilkan data penyakit
     public void tampilkanDataPenyakit() throws SQLException {
         jenisDataAktif = JenisData.PENYAKIT;
         tblData.getColumns().clear();
-
         tblData.getColumns().addAll(
                 createResizableColumn("ID", "idPenyakit", 5),
                 createWrappingColumn("Penyakit", "namaPenyakit", 25),
                 createWrappingColumn("Solusi", "solusi", 70)
-
         );
-
         setTableData(FXCollections.observableArrayList(new PenyakitDAO().getAllPenyakit()), "Data Penyakit");
     }
 
-    // Menampilkan data gejala
     public void tampilkanDataGejala() throws SQLException {
         jenisDataAktif = JenisData.GEJALA;
         tblData.getColumns().clear();
-
         tblData.getColumns().addAll(
                 createResizableColumn("ID", "id_gejala", 5),
                 createWrappingColumn("Gejala", "nama_gejala", 95)
         );
-
         setTableData(FXCollections.observableArrayList(new GejalaDAO().getAllGejala()), "Data Gejala");
     }
 
-    // Menampilkan data riwayat diagnosa
     public void tampilkanRiwayatDiagnosa() {
         jenisDataAktif = JenisData.RIWAYAT;
         tblData.getColumns().clear();
-
         TableColumn<Riwayat, String> colGejala = new TableColumn<>("Gejala");
         colGejala.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getGejalaFormated()));
         colGejala.setCellFactory(tc -> createWrappingCell());
         colGejala.prefWidthProperty().bind(tblData.widthProperty().multiply(0.30));
-
         TableColumn<Riwayat, String> colPenyakit = new TableColumn<>("Penyakit");
         colPenyakit.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getPenyakitFormated()));
         colPenyakit.setCellFactory(tc -> createWrappingCell());
         colPenyakit.prefWidthProperty().bind(tblData.widthProperty().multiply(0.15));
-
         tblData.getColumns().addAll(
             createResizableColumn("ID", "idRiwayat", 5),
             createResizableColumn("Nama Pasien", "namaPasien", 20),
@@ -181,11 +166,37 @@ public class DataController {
             createResizableColumn("Tanggal Diagnosa", "tglDiagnosa", 15),
             createResizableColumn("Dokter", "namaDokter", 15)
         );
-
         setTableData(FXCollections.observableArrayList(new RiwayatDAO().getRiwayat()), "Data Riwayat Diagnosa");
     }
 
-    // Mencari data
+    public void tampilkanDataAturan() {
+        jenisDataAktif = JenisData.ATURAN;
+        tblData.getColumns().clear();
+        TableColumn<Aturan, String> colIdAturan = new TableColumn<>("ID Aturan");
+        colIdAturan.setCellValueFactory(cellData ->
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getIdAturan()))
+        );
+        colIdAturan.setCellFactory(tc -> createWrappingCell());
+        TableColumn<Aturan, String> colIdPenyakit = new TableColumn<>("ID Penyakit");
+        colIdPenyakit.setCellValueFactory(cellData ->
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getIdPenyakit()))
+        );
+        colIdPenyakit.setCellFactory(tc -> createWrappingCell());
+        TableColumn<Aturan, String> colIDGejala = new TableColumn<>("ID Gejala");
+        colIDGejala.setCellValueFactory(cellData ->
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getGejalaFormated()))
+        );
+        colIdPenyakit.setCellFactory(tc -> createWrappingCell());
+        tblData.getColumns().addAll(
+                colIdAturan, colIdPenyakit, colIDGejala
+        );
+        try {
+            setTableData(FXCollections.observableArrayList(new KnowladgeDAO().getAllAturan()), "Data Aturan");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void cariData(String keyword) {
         try {
             if (jenisDataAktif == JenisData.PASIEN) {
@@ -200,12 +211,14 @@ public class DataController {
             } else if (jenisDataAktif == JenisData.GEJALA) {
                 ObservableList<Gejala> filterGejala = FXCollections.observableArrayList(new GejalaDAO().searchGejala(keyword));
                 tblData.setItems(filterGejala);
+            } else if (jenisDataAktif == JenisData.ATURAN) {
+                ObservableList<Aturan> filterAturan = FXCollections.observableArrayList(new KnowladgeDAO().searchAturan(keyword));
+                tblData.setItems(filterAturan);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     private void showFromTambahData() {
@@ -241,27 +254,31 @@ public class DataController {
                             controller.resetForm(); // Pastikan resetForm() public
                         }
                 );
-
                 try {
                     tampilkanDataGejala(); // Refresh tabel setelah tambah data
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
+
+            case ATURAN:
+                showPopup("/com/example/appsaldi/view/form/formdataaturan.fxml", null);
+                tampilkanDataAturan();
+                tblData.refresh();
+                break;
         }
     }
 
-    // Membuka form edit data penyakit
     @FXML
     private void showFromEditData() {
         switch (jenisDataAktif) {
             case PASIEN:
                 editData(
-                        "/com/example/appsaldi/view/form/formregistrasi.fxml",
-                        FormRegistrasiController.class,
+                        "/com/example/appsaldi/view/form/formeditpasien.fxml",
+                        FormEditPasienController.class,
                         controller -> {
-                            controller.setDataPasein((Pasien) tblData.getSelectionModel().getSelectedItem());
-                            controller.setDataController(this);  // Kirim referensi controller utama
+                            controller.setDataPasien((Pasien) tblData.getSelectionModel().getSelectedItem());
+                            controller.setDataController(this);
                         },
                         this::tampilkanDataPasien
                 );
@@ -299,8 +316,16 @@ public class DataController {
                         "/com/example/appsaldi/view/form/formriwayat.fxml",
                         FormRiwayatController.class,
                         controller -> Platform.runLater(() -> controller.setRiwayat((Riwayat) tblData.getSelectionModel().getSelectedItem())),
-
                         this::tampilkanRiwayatDiagnosa
+                );
+                break;
+
+            case ATURAN:
+                editData(
+                        "/com/example/appsaldi/view/form/formdataaturan.fxml",
+                        FormAturanController.class,
+                        controller -> Platform.runLater(() -> controller.setDataAturan((Aturan) tblData.getSelectionModel().getSelectedItem())),
+                        this::tampilkanDataAturan
                 );
                 break;
         }
@@ -350,7 +375,19 @@ public class DataController {
                     "riwayat",
                     tblData.getSelectionModel().getSelectedItem(),
                     obj -> ((Riwayat) obj).getIdRiwayat(),
-                    id -> new RiwayatDAO().deleteRiwayat((Integer) id) // jika tidak throws SQLException, cukup langsung panggil
+                    id -> new RiwayatDAO().deleteRiwayat((Integer) id)
+            );
+            case ATURAN -> handleDelete(
+                    "basis_pengetahuan",
+                    tblData.getSelectionModel().getSelectedItem(),
+                    obj -> ((Aturan) obj).getIdAturan(),
+                    id -> {
+                        try {
+                            new KnowladgeDAO().deleteAturan(String.valueOf(id));
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
             );
         }
     }
@@ -360,18 +397,16 @@ public class DataController {
             AlertUtils.showAlert(Alert.AlertType.WARNING, "Peringatan", "Silahkan pilih data terlebih dahulu");
             return;
         }
-
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Konfirmasi Hapus");
         alert.setHeaderText("Apakah anda yakin ingin menghapus data " + jenis + " ini?");
         alert.setContentText("Dengan ID: " + getId.apply(selectedItem));
-
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
                 deleteFunction.accept(getId.apply(selectedItem));
                 tblData.getItems().remove(selectedItem);
-                AlertUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Data berhasil dihapus");
+                AlertUtils.showNotificationSuccess("Data berhasil dihapus");
             } catch (RuntimeException e) {
                 Throwable cause = e.getCause();
                 if (cause instanceof SQLException sqlEx) {
@@ -379,10 +414,10 @@ public class DataController {
                         AlertUtils.showAlert(Alert.AlertType.WARNING, "Peringatan",
                                 "Data ini masih memiliki hubungan dengan data lain. Silahkan pilih data yang terhubung dengan data pada tabel lain");
                     } else {
-                        AlertUtils.showAlert(Alert.AlertType.WARNING, "Error", "Gagal menghapus data " + jenis);
+                        AlertUtils.showNotificationWarning("Gagal menghapus data " + jenis);
                     }
                 } else {
-                    AlertUtils.showAlert(Alert.AlertType.WARNING, "Error", "Gagal menghapus data " + jenis);
+                    AlertUtils.showNotificationError("Gagal menghapus data " + jenis);
                 }
             }
         }
@@ -392,13 +427,11 @@ public class DataController {
     private <T> TableCell<T, String> createWrappingCell() {
         return new TableCell<T, String>() {
             private final Text text;
-
             {
                 text = new Text();
                 text.wrappingWidthProperty().bind(widthProperty().subtract(10));
                 text.getStyleClass().add("wrapped-text");
             }
-
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -419,7 +452,6 @@ public class DataController {
         return col;
     }
 
-
     private <T> TableColumn<T, String> createWrappingColumn(String title, String property, double percentage) {
         TableColumn<T, String> col = new TableColumn<>(title);
         col.setCellValueFactory(new PropertyValueFactory<>(property));
@@ -437,24 +469,19 @@ public class DataController {
        try {
            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
            Parent root = loader.load();
-
            if (controllerConsumer != null) {
                controllerConsumer.accept(loader);
            }
-
            Stage mainStage = (Stage) btnTambahData.getScene().getWindow();
            Stage popuStage = new Stage();
            popuStage.initModality(Modality.WINDOW_MODAL);
            popuStage.initOwner(mainStage);
            popuStage.initStyle(StageStyle.TRANSPARENT);
-
            mainStage.getScene().getRoot().setEffect(new GaussianBlur(10));
            popuStage.setOnHidden(e -> mainStage.getScene().getRoot().setEffect(null));
-
            Scene scene = new Scene(root);
            scene.setFill(Color.TRANSPARENT);
            popuStage.setScene(scene);
-
            popuStage.centerOnScreen();
            Platform.runLater(() -> {
                popuStage.setX(mainStage.getX() + (mainStage.getWidth() / 2) - (popuStage.getWidth() / 2));
@@ -464,7 +491,6 @@ public class DataController {
        } catch (Exception e) {
             e.printStackTrace();
        }
-
     }
 
     private <T> void editData(
@@ -478,40 +504,31 @@ public class DataController {
             AlertUtils.showAlert(Alert.AlertType.WARNING, "Warning", "Pilih data terlebih dahulu!");
             return;
         }
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-
             T controller = loader.getController();
             controllerConsumer.accept(controller);
-
             Stage mainStage = (Stage) btnTambahData.getScene().getWindow();
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.WINDOW_MODAL);
             popupStage.initOwner(mainStage);
             popupStage.initStyle(StageStyle.TRANSPARENT);
-
             mainStage.getScene().getRoot().setEffect(new GaussianBlur(10));
             popupStage.setOnHidden(e -> mainStage.getScene().getRoot().setEffect(null));
-
             Scene scene = new Scene(root);
             scene.setFill(Color.TRANSPARENT);
             popupStage.setScene(scene);
-
             popupStage.centerOnScreen();
             Platform.runLater(() -> {
                 popupStage.setX(mainStage.getX() + (mainStage.getWidth() / 2) - (popupStage.getWidth() / 2));
                 popupStage.setY(mainStage.getY() + (mainStage.getHeight() / 2) - (popupStage.getHeight() / 2));
             });
-
             popupStage.showAndWait();
             if (afterShow != null) afterShow.run();
             tblData.refresh();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

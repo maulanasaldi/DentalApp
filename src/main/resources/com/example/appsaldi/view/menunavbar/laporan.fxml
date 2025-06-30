@@ -19,18 +19,6 @@
    <children>
       <HBox fx:id="menu" prefHeight="30.0" prefWidth="200.0">
          <children>
-            <Button fx:id="btnPasien" mnemonicParsing="false" onAction="#showDataPasien" styleClass="colored-button" text="Data Pasien">
-               <graphic>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../img/icon-light-data-pasien.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
             <Button fx:id="btnPenyakit" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showDataPenyakit" styleClass="colored-button" text="Data Penyakit">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -40,7 +28,7 @@
                   </ImageView>
                </graphic>
                <HBox.margin>
-                  <Insets left="10.0" />
+                  <Insets />
                </HBox.margin>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -60,6 +48,21 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+            </Button>
+            <Button fx:id="btnAturan" mnemonicParsing="false" onAction="#showDataAturan" styleClass="colored-button" text="Data Aturan">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/icon-light-data-pasien.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
             </Button>
             <Button fx:id="btnRiwayat" layoutX="224.0" layoutY="10.0" mnemonicParsing="false" onAction="#showRiwayatDiagnosa" styleClass="colored-button" text="Riwayat Diagnosa">
                <graphic>

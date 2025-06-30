@@ -6,8 +6,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pasien {
@@ -20,6 +18,8 @@ public class Pasien {
     private String noTlpPasien;
     private String alamatPasien;
     private Timestamp tglPendaftaran;
+    private Integer idPendaftaran;
+    private String statusDiagnosa;
 
     public Pasien(String namaPasien, LocalDate tglLahirPasien, String nik, String pekerjaan, String noTlpPasien, String alamatPasien) {
         this.namaPasien = namaPasien;
@@ -28,5 +28,16 @@ public class Pasien {
         this.pekerjaan = pekerjaan;
         this.noTlpPasien = noTlpPasien;
         this.alamatPasien = alamatPasien;
+    }
+
+    public Pasien(Integer idPasien, String namaPasien, LocalDate tglLahirPasien, String nik, String pekerjaan, String noTlpPasien, String alamatPasien, Timestamp tglPendaftaran) {
+        this.idPasien = idPasien;
+        this.namaPasien = namaPasien;
+        this.tglLahirPasien = tglLahirPasien;
+        this.nik = nik;
+        this.pekerjaan = pekerjaan;
+        this.noTlpPasien = noTlpPasien;
+        this.alamatPasien = alamatPasien;
+        this.tglPendaftaran = tglPendaftaran;
     }
 }

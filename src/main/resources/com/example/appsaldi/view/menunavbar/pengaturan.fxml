@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="565.0" prefWidth="900.0" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="565.0" prefWidth="900.0" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.PengaturanController">
    <children>
-      <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button" VBox.vgrow="ALWAYS">
+      <Button fx:id="btnProfileAkun" mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button" VBox.vgrow="ALWAYS">
          <graphic>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
                <children>
@@ -42,7 +42,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="35.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button">
+      <Button fx:id="btnTentangAplikasi" layoutX="35.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button">
          <graphic>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
                <children>
@@ -56,8 +56,8 @@
                   </ImageView>
                   <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label styleClass="text-regular-bold" text="Tentang Aplikasi" />
-                        <Label styleClass="text-regular" text="Informasi versi aplikasi dan pembaruan sistem" />
+                        <Label styleClass="text-regular-bold" text="Tentang Dental Care" />
+                        <Label styleClass="text-regular" text="Informasi aplikasi dan pembaruan sistem" />
                      </children>
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -73,7 +73,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="35.0" layoutY="170.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button">
+      <Button fx:id="btnLogOut" layoutX="35.0" layoutY="170.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="892.0" styleClass="transparent-button">
          <graphic>
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
                <children>

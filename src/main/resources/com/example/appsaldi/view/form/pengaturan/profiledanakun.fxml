@@ -1,59 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="900.0" stylesheets="@../../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.pengaturan.ProfileAkunController">
    <children>
       <Label prefHeight="30.0" prefWidth="200.0" styleClass="title" text="Profile &amp; Akun">
          <padding>
             <Insets left="10.0" />
          </padding>
       </Label>
-      <Label layoutX="35.0" layoutY="20.0" styleClass="text-label" text="Nama Lengkap">
+      <Label layoutX="35.0" layoutY="20.0" styleClass="text-regular" text="Nama Lengkap">
          <VBox.margin>
             <Insets bottom="5.0" top="20.0" />
          </VBox.margin>
       </Label>
-      <TextField prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="35.0" layoutY="37.0" styleClass="text-label" text="Email">
+      <TextField fx:id="txtNama" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="35.0" layoutY="79.0" styleClass="text-regular" text="Kata Sandi">
          <VBox.margin>
             <Insets bottom="5.0" top="10.0" />
          </VBox.margin>
       </Label>
-      <TextField layoutX="35.0" layoutY="54.0" />
-      <Label layoutX="35.0" layoutY="79.0" styleClass="text-label" text="Kata Sandi">
-         <VBox.margin>
-            <Insets bottom="5.0" top="10.0" />
-         </VBox.margin>
-      </Label>
-      <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="200.0">
          <children>
-            <TextField HBox.hgrow="ALWAYS" />
-            <Region prefHeight="50.0" prefWidth="10.0" />
-            <Button mnemonicParsing="false" text="Ubah Password" />
+            <TextField fx:id="txtKataSandi" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnUbahPassword" mnemonicParsing="false" styleClass="colored-button" text="Ubah Password">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
-      <Label layoutX="35.0" layoutY="121.0" styleClass="text-label" text="Foto Profile">
+      <Label layoutX="35.0" layoutY="121.0" styleClass="text-regular" text="Foto Profile">
          <VBox.margin>
             <Insets bottom="5.0" top="10.0" />
          </VBox.margin>
       </Label>
-      <HBox alignment="CENTER_LEFT" layoutX="35.0" layoutY="138.0" prefHeight="25.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" layoutX="35.0" layoutY="138.0" prefHeight="35.0" prefWidth="200.0">
          <children>
-            <TextField HBox.hgrow="ALWAYS" />
-            <Region prefHeight="50.0" prefWidth="10.0" />
-            <Button mnemonicParsing="false" text="Edit Foto Profile" />
+            <TextField fx:id="txtPathFotoProfile" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnEditFotoProfile" mnemonicParsing="false" styleClass="colored-button" text="Edit Foto Profile">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
-      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="408.0" text=" Simpan Perubahan">
+      <Button fx:id="btnSimpanPerubahan" mnemonicParsing="false" prefHeight="35.0" prefWidth="408.0" styleClass="colored-button" text=" Simpan Perubahan">
          <VBox.margin>
             <Insets top="20.0" />
          </VBox.margin>
@@ -62,8 +57,4 @@
    <padding>
       <Insets bottom="20.0" left="25.0" right="500.0" top="10.0" />
    </padding>
-   <stylesheets>
-      <URL value="@../../../css/profiledanakun.css" />
-      <URL value="@../../../css/komponen/button.css" />
-   </stylesheets>
 </VBox>

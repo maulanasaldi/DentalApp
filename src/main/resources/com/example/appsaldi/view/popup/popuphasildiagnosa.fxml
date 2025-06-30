@@ -56,7 +56,7 @@
                      <Cursor fx:constant="HAND" />
                   </cursor>
                </Button>
-               <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSave" styleClass="button-handle-form" text="Simpan">
+               <Button fx:id="btnSimpan" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleSave" styleClass="button-handle-form" text="Simpan">
                   <HBox.margin>
                      <Insets left="10.0" />
                   </HBox.margin>

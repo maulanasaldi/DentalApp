@@ -1,14 +1,16 @@
-package com.example.appsaldi.model;
+package com.example.appsaldi.dao;
+
+import com.example.appsaldi.model.Gejala;
 
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DiagnosaModel {
+public class DiagnosaDAO {
 
     private final Connection connection;
 
-    public DiagnosaModel(Connection connection) {
+    public DiagnosaDAO(Connection connection) {
         this.connection = connection;
     }
 

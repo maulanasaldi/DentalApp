@@ -4,7 +4,7 @@ import com.example.appsaldi.connectiondb.ConnectionDB;
 import com.example.appsaldi.controller.DiagnosisController;
 import com.example.appsaldi.controller.TampilanUtamaController;
 import com.example.appsaldi.dao.PasienDAO;
-import com.example.appsaldi.model.DiagnosaModel;
+import com.example.appsaldi.dao.DiagnosaDAO;
 import com.example.appsaldi.model.UsersModel;
 import com.example.appsaldi.utils.AlertUtils;
 import com.example.appsaldi.utils.Session;
@@ -43,52 +43,54 @@ public class PopupDiagnosisResultController {
 
 
     @FXML private VBox rootVBox;
-    @FXML private Button btnClose, btnCetak;
+    @FXML private Button btnClose, btnCetak, btnSimpan;
     @FXML private Text lblIdPasien, patientName, diseaseName, diseaseSolution;
 
     private int patientId;
     private List<Integer> diseaseId;
     private List<Integer> patientSymptoms;
-    private DiagnosaModel diagnosaModel;
+    private DiagnosaDAO diagnosaDAO;
     private boolean isDiagnosisSaved = false;
+    private int idPendaftaran;
 
 
-    public void setDiagnosisData(int patientId, List<Integer> diseaseId, List<Integer> patientSymptoms, DiagnosaModel diagnosaModel) {
+    public void setDiagnosisData(int idPendaftaran, int patientId, List<Integer> diseaseId, List<Integer> patientSymptoms, DiagnosaDAO diagnosaDAO) {
+        this.idPendaftaran = idPendaftaran;
         this.patientId = patientId;
         this.diseaseId = diseaseId;
         this.patientSymptoms = patientSymptoms;
-        this.diagnosaModel = diagnosaModel;
+        this.diagnosaDAO = diagnosaDAO;
     }
 
     @FXML
     private void handleSave() {
         try {
             int idDokter = Session.getCurrentUserId();
-            int idRiwayatDiagnosa = diagnosaModel.simpanRiwayatDiagnosa(patientId, idDokter);
+            int idRiwayatDiagnosa = diagnosaDAO.simpanRiwayatDiagnosa(patientId, idDokter);
 
-            diagnosaModel.simpanRiwayatPenyakit(idRiwayatDiagnosa, diseaseId);
-            diagnosaModel.simpanRiwayatGejala(List.of(idRiwayatDiagnosa), patientSymptoms);
+            diagnosaDAO.simpanRiwayatPenyakit(idRiwayatDiagnosa, diseaseId);
+            diagnosaDAO.simpanRiwayatGejala(List.of(idRiwayatDiagnosa), patientSymptoms);
 
             PasienDAO pasienDAO = new PasienDAO();
-            pasienDAO.updateStatusNotifById(patientId);
+            pasienDAO.updateStatusNotifById("SUDAH", idPendaftaran);
             Platform.runLater(() -> {
                 if (utamaController != null) {
-                    utamaController.cekPasienBaru(); // REFRESH NOTIFIKASI UTAMA
+                    utamaController.cekPasienBaru();
                 }
             });
 
             isDiagnosisSaved = true;
 
-            AlertUtils.showAlert(Alert.AlertType.INFORMATION, "Sukses", "Data diagnosa berhasil disimpan.");
+            AlertUtils.showNotificationSuccess("Data diagnosa berhasil disimpan.");
             btnCetak.setVisible(false);
             btnCetak.setManaged(false);
-
+            btnSimpan.setVisible(false);
+            btnSimpan.setManaged(false);
         } catch (Exception e) {
             e.printStackTrace();
             AlertUtils.showAlert(Alert.AlertType.ERROR, "Gagal", "Gagal menyimpan data diagnosis.");
         }
     }
-
 
     @FXML
     private void handelCetakHasilDiagnosa() {

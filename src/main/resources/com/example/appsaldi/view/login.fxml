@@ -20,18 +20,10 @@
       <HBox fx:id="mainBox">
          <VBox alignment="CENTER" prefHeight="405.0" prefWidth="300.0" style="-fx-background-color: linear-gradient(to bottom, #D4EAF7, #B6CCD8);">
             <children>
-               <ImageView fitHeight="150.0" fitWidth="304.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="125.0" fitWidth="258.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../img/Logo%20S.png" />
+                     <Image url="@../img/LogoKlinikGigi.png" />
                   </image>
-               </ImageView>
-               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../img/DENTAL%20CARE.png" />
-                  </image>
-                  <VBox.margin>
-                     <Insets top="10.0" />
-                  </VBox.margin>
                </ImageView>
                <Label alignment="CENTER" layoutX="25.0" layoutY="147.0" prefHeight="68.0" prefWidth="307.0" styleClass="text-regular" text="“Gigi kuat makan nikmat, mulut segar napas sehat, senyum pede makin hebat”." textAlignment="CENTER" wrapText="true">
                   <font>

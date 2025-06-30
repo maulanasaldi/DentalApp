@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane styleClass="root" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox styleClass="root">
+         <padding>
+            <Insets bottom="20.0" left="25.0" right="25.0" top="10.0" />
+         </padding>
+         <children>
+            <Label styleClass="title" text="Yohana Christiana Dental Clinic" />
+            <HBox prefHeight="240.0" prefWidth="850.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/LogoKlinikGigi.png" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                     <children>
+                        <Label prefHeight="240.0" prefWidth="520.0" styleClass="text-regular" text="Yohana Christiana Dental Clinic adalah salah satu klinik gigi terpercaya yang berlokasi di Jagakarsa, Jakarta Selatan, dipimpin oleh drg. Yohana Christiana. Klinik ini menawarkan layanan perawatan gigi yang lengkap dan profesional, mulai dari tambal gigi, pencabutan, hingga scaling. Dalam upaya meningkatkan kualitas pelayanan berbasis teknologi, klinik ini berkolaborasi dengan Saldi Care, sebuah perusahaan pengembang sistem, untuk mengembangkan sistem pakar dental care. Sistem ini dirancang untuk membantu dokter dalam melakukan diagnosis awal terhadap masalah gigi dan mulut secara digital. Kolaborasi ini menjadi langkah inovatif dalam menghadirkan pelayanan kesehatan gigi yang lebih modern, efisien, dan mudah diakses." textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <Label layoutX="35.0" layoutY="20.0" styleClass="title" text="Dental Care">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="30.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" layoutX="35.0" layoutY="65.0" prefHeight="155.0" prefWidth="850.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox prefHeight="155.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Label prefHeight="155.0" prefWidth="832.0" styleClass="text-regular" text="Dental Care adalah sebuah aplikasi yang dikembangkan sebagai alat bantu bagi dokter gigi dalam melakukan diagnosis awal terhadap kondisi kesehatan gigi dan mulut pasien. Melalui sistem pakar yang tertanam di dalamnya, aplikasi ini mampu menganalisis gejala-gejala yang diinput oleh pengguna dan memberikan rekomendasi awal yang dapat membantu dokter dalam proses pemeriksaan lanjutan. Dengan demikian, Dental Care tidak hanya mempermudah dokter dalam mengenali masalah gigi sejak dini, tetapi juga mendukung efisiensi kerja para tenaga medis di bidang kedokteran gigi." textAlignment="JUSTIFY" wrapText="true" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="150.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../img/LogoSaldi.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Label layoutX="35.0" layoutY="460.0" styleClass="title" text="Fitur Utama Dental Care">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="30.0" />
+               </VBox.margin></Label>
+            <HBox alignment="TOP_RIGHT" layoutX="35.0" layoutY="323.0" prefHeight="100.0" prefWidth="850.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Label styleClass="text-regular" text="Beberapa fitur unggulan dalam aplikasi Dental Care meliputi:" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="10.0" styleClass="text-regular" text="- Deteksi awal berdasarkan gejala pasien" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="50.0" styleClass="text-regular" text="- Rekomendasi tindakan medis awal" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="70.0" styleClass="text-regular" text="- Riwayat diagnosis pasien" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="90.0" styleClass="text-regular" text="- Tampilan antarmuka yang mudah digunakan oleh dokter" textAlignment="JUSTIFY" wrapText="true" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label styleClass="title" text="Informasi Kontak Yohana Christiana Dental Clinic">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="30.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="TOP_RIGHT" layoutX="35.0" layoutY="323.0" prefHeight="85.0" prefWidth="850.0">
+               <children>
+                  <VBox prefHeight="150.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Label layoutX="10.0" layoutY="10.0" styleClass="text-regular" text="Manager         : drg. Yohana Christina" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="10.0" styleClass="text-regular" text="No. Telephon  : 081281214142" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="30.0" styleClass="text-regular" text="Alamat        : Jl. M. Kahfi 1. 25D3, RT.8/RW.4, Jagakarsa, Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12620" textAlignment="JUSTIFY" wrapText="true" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label layoutX="35.0" layoutY="655.0" styleClass="title" text="Informasi lainnya">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="30.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="TOP_RIGHT" layoutX="35.0" layoutY="700.0" prefHeight="100.0" prefWidth="850.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Label layoutX="10.0" layoutY="10.0" styleClass="text-regular" text="M. Maulana Saldi dari Universitas Indraprasta PGRI jurusan Teknik Informatika sebagai:" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="30.0" styleClass="text-regular" text="- Pengembang" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="30.0" styleClass="text-regular" text="- Perbaikan bug dan perbaikan umum" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="50.0" styleClass="text-regular" text="- Perbaikan UI" textAlignment="JUSTIFY" wrapText="true" />
+                        <Label layoutX="10.0" layoutY="50.0" styleClass="text-regular" text="- Penulis/Dokumentasi" textAlignment="JUSTIFY" wrapText="true" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>

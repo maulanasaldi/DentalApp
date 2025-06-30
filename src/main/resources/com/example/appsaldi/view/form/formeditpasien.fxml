@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="" prefHeight="435.0" prefWidth="600.0" styleClass="root" stylesheets="@../../css/formr/formPopUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.formcontroller.FormRegistrasiController">
+<StackPane fx:id="" prefHeight="435.0" prefWidth="600.0" styleClass="root" stylesheets="@../../css/formr/formPopUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.formcontroller.FormEditPasienController">
    <VBox fx:id="rootVBox" styleClass="vbox">
       <children>
          <Label prefHeight="25.0" prefWidth="573.0" styleClass="text-judul" text="Registrasi Data Pasien">
@@ -68,13 +68,6 @@
                      <HBox alignment="CENTER" prefHeight="30.0" styleClass="arrow-button">
                         <children>
                            <TextField fx:id="txtNIK" prefHeight="30.0" prefWidth="200.0" styleClass="text-field" HBox.hgrow="ALWAYS" />
-                           <Button fx:id="btnCariDataPasien" mnemonicParsing="false" onAction="#showPopupDataPasien" prefHeight="30.0" styleClass="button-handle-popup" text="Cari">
-                              <cursor>
-                                 <Cursor fx:constant="HAND" />
-                              </cursor>
-                              <HBox.margin>
-                                 <Insets left="10.0" />
-                              </HBox.margin></Button>
                         </children>
                      </HBox>
                      <Label layoutX="30.0" layoutY="30.0" styleClass="text-label" text="Pekarjaan">

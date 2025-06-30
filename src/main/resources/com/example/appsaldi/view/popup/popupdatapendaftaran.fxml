@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="479.0" prefWidth="895.0" styleClass="root" stylesheets="@../../css/formr/formPopUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.poopupcontroller.PopupDataPendaftarController">
+   <VBox fx:id="rootVBox" styleClass="vbox">
+      <children>
+         <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+            <children>
+               <Label prefHeight="25.0" styleClass="text-judul" text="Data Pendaftaran">
+                  <font>
+                     <Font size="14.0" />
+                  </font>
+               </Label>
+               <Region prefHeight="200.0" HBox.hgrow="ALWAYS" />
+               <TextField fx:id="txtCariDataPasien" prefHeight="30.0" />
+            </children>
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+         </HBox>
+         <TableView fx:id="tblDataPasien" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+         </TableView>
+         <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="200.0">
+            <children>
+               <Button fx:id="btnKeluar" alignment="CENTER" mnemonicParsing="false" onAction="#handelKeluar" styleClass="button-handle-form" text="Keluar" />
+            </children>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin>
+         </HBox>
+      </children>
+   </VBox>
+</StackPane>

@@ -1,8 +1,6 @@
 package com.example.appsaldi.dao;
-
 import com.example.appsaldi.connectiondb.ConnectionDB;
 import com.example.appsaldi.model.Pasien;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,22 +22,10 @@ public class PasienDAO {
             insertStatement.setString(6, pasien.getAlamatPasien());
             insertStatement.setBoolean(7, false); // status_notif default
             insertStatement.executeUpdate();
+            int idBaru = getLastInsertedId();
+            new PendaftaranDAO().insert(idBaru);
         } catch (SQLException e) {
             throw new SQLException("Gagal menyimpan data pasien: " + e.getMessage());
-        }
-    }
-
-
-    public void updateStatusNotif() {
-        String query = "UPDATE pasien SET status_notif = TRUE WHERE status_notif = FALSE";
-
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -72,11 +58,9 @@ public class PasienDAO {
         }
     }
 
-
     public List<Pasien> getAllPasien() throws SQLException {
         List<Pasien> list = new ArrayList<>();
         String sql = "SELECT * FROM pasien";
-
         try (Connection conn = ConnectionDB.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -99,64 +83,34 @@ public class PasienDAO {
 
     public List<Pasien> searchPasien(String keyword) throws SQLException {
         List<Pasien> list = new ArrayList<>();
-        String sql = "SELECT * FROM pasien WHERE " +
-                "id_pasien LIKE ? OR " +
-                "nama_pasien LIKE ? OR " +
-                "nik LIKE ? OR " +
-                "pekerjaan LIKE ?";
+        String sql = """
+            SELECT p.*, d.tanggal_daftar, d.id_pendaftaran
+            FROM pasien p
+            JOIN pendaftaran d ON p.id_pasien = d.id_pasien
+            WHERE d.status_diagnosa = 'BELUM'
+            ORDER BY d.tanggal_daftar ASC
+        """;
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
-
             String wildcard = "%" + keyword + "%";
             stmt.setString(1, wildcard);
             stmt.setString(2, wildcard);
             stmt.setString(3, wildcard);
             stmt.setString(4, wildcard);
-
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Pasien p = new Pasien(
-                        rs.getInt("id_pasien"),
-                        rs.getString("nama_pasien"),
-                        rs.getDate("tgl_lahir").toLocalDate(),
-                        rs.getString("nik"),
-                        rs.getString("pekerjaan"),
-                        rs.getString("no_tlpn_pasien"),
-                        rs.getString("alamat_pasien"),
-                        rs.getTimestamp("tgl_pendaftaran")
+                Pasien pasien = new Pasien(
+                    rs.getInt("id_pasien"),
+                    rs.getString("nama"),
+                    rs.getDate("tgl_lahir").toLocalDate(),
+                    rs.getString("nik"),
+                    rs.getString("pekerjaan"),
+                    rs.getString("no_tlp"),
+                    rs.getString("alamat"),
+                    rs.getTimestamp("tanggal_daftar")
                 );
-                list.add(p);
-            }
-        }
-        return list;
-    }
-
-    public List<Pasien> getPasienByTanggal(LocalDate awal, LocalDate akhir) throws SQLException {
-        List<Pasien> list = new ArrayList<>();
-        String query = "SELECT * FROM pasien WHERE tgl_pendaftaran BETWEEN ? AND ?";
-
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setDate(1, Date.valueOf(awal));
-            stmt.setDate(2, Date.valueOf(akhir));
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Pasien pasien = new Pasien();
-                pasien.setIdPasien(rs.getInt("id_pasien"));
-                pasien.setNamaPasien(rs.getString("nama_pasien"));
-
-                Date tglLahir = rs.getDate("tgl_lahir");
-                pasien.setTglLahirPasien(tglLahir != null ? tglLahir.toLocalDate() : null);
-
-                pasien.setNik(rs.getString("nik"));
-                pasien.setPekerjaan(rs.getString("pekerjaan"));
-                pasien.setNoTlpPasien(rs.getString("no_tlpn_pasien"));
-                pasien.setAlamatPasien(rs.getString("alamat_pasien"));
-                pasien.setTglPendaftaran(rs.getTimestamp("tgl_pendaftaran"));
-
+                pasien.setIdPendaftaran(rs.getInt("id_pendaftaran"));
                 list.add(pasien);
             }
         }
@@ -166,45 +120,54 @@ public class PasienDAO {
     public Map<String, Integer> getJumlahPasienPerPekerjaan() {
         Map<String, Integer> data = new HashMap<>();
         String query = "SELECT pekerjaan, COUNT(*) AS jumlah FROM pasien GROUP BY pekerjaan";
-
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
                 String pekerjaan = rs.getString("pekerjaan");
                 int jumlah = rs.getInt("jumlah");
-
                 if (pekerjaan == null || pekerjaan.isBlank()) {
                     pekerjaan = "Tidak Diketahui";
                 }
-
                 data.put(pekerjaan, jumlah);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return data;
     }
 
     public List<Pasien> getPasienTerbaru(int limit) {
         List<Pasien> list = new ArrayList<>();
-        String sql = "SELECT * FROM pasien ORDER BY id_pasien DESC LIMIT ?";
+        String sql = """
+            SELECT
+                pendaftaran.id_pendaftaran,
+                pendaftaran.tanggal_daftar,
+                pendaftaran.status_diagnosa,
+                pasien.id_pasien,
+                pasien.nama_pasien,
+                pasien.tgl_lahir,
+                pasien.nik,
+                pasien.pekerjaan,
+                pasien.no_tlpn_pasien,
+                pasien.alamat_pasien
+            FROM pendaftaran
+            JOIN pasien ON pendaftaran.id_pasien = pasien.id_pasien
+            ORDER BY pendaftaran.id_pendaftaran DESC
+            LIMIT ?
+        """;
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setInt(1, limit);
             ResultSet rs = stmt.executeQuery();
-
             while (rs.next()) {
                 Pasien pasien = new Pasien();
+                pasien.setIdPendaftaran(rs.getInt("id_pendaftaran"));
                 pasien.setIdPasien(rs.getInt("id_pasien"));
                 pasien.setNamaPasien(rs.getString("nama_pasien"));
-                pasien.setTglLahirPasien(rs.getDate("tgl_lahir").toLocalDate());
-                pasien.setNik(rs.getString("nik"));
+                pasien.setTglPendaftaran(rs.getTimestamp("tanggal_daftar"));
+                pasien.setStatusDiagnosa(rs.getString("status_diagnosa"));
                 pasien.setPekerjaan(rs.getString("pekerjaan"));
                 pasien.setNoTlpPasien(rs.getString("no_tlpn_pasien"));
                 pasien.setAlamatPasien(rs.getString("alamat_pasien"));
@@ -213,18 +176,22 @@ public class PasienDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return list;
     }
 
     public List<Pasien> getPasienBelumDidiagnosa() {
         List<Pasien> list = new ArrayList<>();
-        String sql = "SELECT * FROM pasien WHERE status_notif = 0 ORDER BY tgl_pendaftaran ASC"; // Ini yang benar!
+        String sql = """
+        SELECT p.*, d.id_pendaftaran, d.tanggal_daftar
+        FROM pasien p
+        JOIN pendaftaran d ON p.id_pasien = d.id_pasien
+        WHERE d.status_diagnosa = 'BELUM' AND d.status_notif = FALSE
+        ORDER BY d.tanggal_daftar ASC
+    """;
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
                 Pasien pasien = new Pasien(
                         rs.getInt("id_pasien"),
@@ -236,27 +203,47 @@ public class PasienDAO {
                         rs.getString("alamat_pasien"),
                         rs.getTimestamp("tgl_pendaftaran")
                 );
+                pasien.setIdPendaftaran(rs.getInt("id_pendaftaran"));
                 list.add(pasien);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return list;
     }
 
-    public void updateStatusNotifById(int idPasien) {
-        String query = "UPDATE pasien SET status_notif = TRUE WHERE id_pasien = ?";
-
+    public void updateStatusNotifById(String status, int idPendaftaran) {
+        String query = "UPDATE pendaftaran SET status_diagnosa = ? WHERE id_pendaftaran = ?";
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, idPasien);
+            stmt.setString(1, status);
+            stmt.setInt(2, idPendaftaran);
             stmt.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public int getLastInsertedId() throws SQLException {
+        String sql = "SELECT LAST_INSERT_ID()";
+        try (Connection conn = ConnectionDB.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return -1;
+    }
+
+    public void updateStatusNotifPendaftaran(int idPendaftaran) {
+        String query = "UPDATE pendaftaran SET status_notif = TRUE WHERE id_pendaftaran = ?";
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idPendaftaran);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

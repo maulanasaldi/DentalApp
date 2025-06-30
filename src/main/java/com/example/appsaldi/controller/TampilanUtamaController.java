@@ -1,5 +1,5 @@
 package com.example.appsaldi.controller;
-
+import com.example.appsaldi.controller.pengaturan.ProfileAkunController;
 import com.example.appsaldi.dao.PasienDAO;
 import com.example.appsaldi.model.Pasien;
 import com.example.appsaldi.model.UsersModel;
@@ -22,18 +22,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class TampilanUtamaController {
 
-    @Setter
-    private UsersModel currentUser;
+    @Setter private UsersModel currentUser;
+    @Getter private Object currentController;
 
     @FXML private Circle imageProfile;
     @FXML public Label lblWelcome, lblNama, lblStatus;
@@ -42,8 +38,6 @@ public class TampilanUtamaController {
     @FXML private Button btnNotif;
     @FXML private Label badgeNotif;
 
-    @Getter
-    private Object currentController;
     private Timer timer;
     private Popup notifPopup = new Popup();
     private VBox notifContainer = new VBox();
@@ -52,17 +46,12 @@ public class TampilanUtamaController {
     private void initialize() {
         notifContainer.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-spacing: 10;");
         notifPopup.getContent().add(notifContainer);
-
-        btnPengaturan.setVisible(false);
-        btnPengaturan.setManaged(false);
-
         if ("resepsionis".equalsIgnoreCase(Session.getCurrentRole())) {
             btnNotif.setVisible(false);
             btnNotif.setManaged(false);
             badgeNotif.setVisible(false);
             badgeNotif.setManaged(false);
         }
-
     }
 
     public Object setContent(String fxmlPath) {
@@ -70,9 +59,7 @@ public class TampilanUtamaController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Node node = loader.load();
             Object controller = loader.getController();
-
             this.currentController = controller;
-
             if (controller instanceof DashboardController dashboardCtrl) {
                 dashboardCtrl.setUtamaController(this);
                 dashboardCtrl.setCurrentUser(currentUser);
@@ -85,16 +72,17 @@ public class TampilanUtamaController {
             } else if (controller instanceof LaporanController laporanController) {
                 laporanController.setUtamaController(this);
                 laporanController.setCurrentUser(currentUser);
+            } else if (controller instanceof PengaturanController pengaturanController) {
+                pengaturanController.setUtamaController(this);
+            } else if (controller instanceof ProfileAkunController profileAkunController) {
+                profileAkunController.setUtamaController(this);
             }
-
             StackPane.setMargin(node, Insets.EMPTY);
             StackPane.setAlignment(node, javafx.geometry.Pos.CENTER);
-
             if (node instanceof Region region) {
                 region.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
                 region.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             }
-
             node.setOpacity(0);
             contentPane.getChildren().setAll(node);
             FadeTransition fadeIn = new FadeTransition(Duration.millis(300), node);
@@ -135,11 +123,9 @@ public class TampilanUtamaController {
     public void showDiagnosa() {
         Object controller = setContent("/com/example/appsaldi/view/menunavbar/diagnosa.fxml");
         lblWelcome.setText("Diagnosa");
-
         resetButtonStyles();
         btnDiagnosa.requestFocus();
         btnDiagnosa.setStyle("-fx-background-color: #D4EAF7; -fx-font-weight: bold;");
-
         if (controller instanceof DiagnosisController diagnosisController) {
             diagnosisController.setUsersModel(currentUser);
             diagnosisController.setUtamaController(this);
@@ -167,7 +153,6 @@ public class TampilanUtamaController {
         } else {
             lblWelcome.setText("Data");
         }
-
         resetButtonStyles();
         btnData.requestFocus();
         btnData.setStyle("-fx-background-color: #D4EAF7; -fx-font-weight: bold;");
@@ -188,9 +173,7 @@ public class TampilanUtamaController {
         alert.setTitle("Konfirmasi Logout");
         alert.setHeaderText(null);
         alert.setContentText("Apakah anda yakin ingin logout?");
-
         Optional<ButtonType> result = alert.showAndWait();
-
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Session.clear();
             showLogin();
@@ -204,7 +187,6 @@ public class TampilanUtamaController {
         try {
             Stage stage = (Stage) btnKeluar.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/appsaldi/view/login.fxml"));
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.centerOnScreen();
@@ -216,9 +198,7 @@ public class TampilanUtamaController {
     public void setUser(UsersModel usersModel) {
         if (usersModel != null) {
             this.currentUser = usersModel;
-
             lblWelcome.setText("Selamat Datang " + usersModel.getUsername());
-
             if (usersModel.getFotoPath() != null && !usersModel.getFotoPath().isEmpty()) {
                 File file = new File(usersModel.getFotoPath());
                 if (!file.exists()) {
@@ -234,10 +214,8 @@ public class TampilanUtamaController {
             } else {
                 setDefaultImage();
             }
-
             lblNama.setText(usersModel.getNama());
             lblStatus.setText(usersModel.getStatus());
-
             if ("Resepsionis".equalsIgnoreCase(usersModel.getStatus())) {
                 btnDiagnosa.setVisible(false);
                 btnDiagnosa.setManaged(false);
@@ -246,7 +224,6 @@ public class TampilanUtamaController {
                 btnDiagnosa.setManaged(true);
                 startPasienPolling();
             }
-
             Platform.runLater(() -> showDashboard());
         } else {
             setDefaultImage();
@@ -254,59 +231,50 @@ public class TampilanUtamaController {
     }
 
     private void setDefaultImage() {
-        Image defaultImage = new Image(getClass().getResource("/images/default.jpg").toString());
+        Image defaultImage = new Image(getClass().getResource("/com/example/appsaldi/image/default.jpg").toString());
         imageProfile.setFill(new ImagePattern(defaultImage));
     }
 
     public void cekPasienBaru() {
         PasienDAO pasienDAO = new PasienDAO();
-        List<Pasien> pasienBaruList = pasienDAO.getPasienBelumDidiagnosa();
-
-        Platform.runLater(() -> {
-            notifContainer.getChildren().clear();
-
-            if (!pasienBaruList.isEmpty()) {
-                for (Pasien pasien : pasienBaruList) {
-                    notifContainer.getChildren().add(createNotifItem(pasien));
-                }
-                badgeNotif.setVisible(true);
-                badgeNotif.setManaged(true);
-            } else {
-                // Tampilkan teks jika tidak ada pasien baru
-                Label kosongLabel = new Label("Tidak ada pasien baru.");
-                kosongLabel.setStyle("-fx-text-fill: #999; -fx-font-style: italic;");
-                notifContainer.getChildren().add(kosongLabel);
-
-                badgeNotif.setVisible(false);
-                badgeNotif.setManaged(false);
+        List<Pasien> semuaPasienBelum = pasienDAO.getPasienBelumDidiagnosa();
+        notifContainer.getChildren().clear(); // bersihkan isi popup dulu
+        if (!semuaPasienBelum.isEmpty()) {
+            for (Pasien pasien : semuaPasienBelum) {
+                notifContainer.getChildren().add(createNotifItem(pasien));
             }
-        });
+            badgeNotif.setVisible(true);
+            badgeNotif.setManaged(true);
+        } else {
+            Label kosongLabel = new Label("Tidak ada pasien baru.");
+            kosongLabel.setStyle("-fx-text-fill: #999; -fx-font-style: italic;");
+            notifContainer.getChildren().add(kosongLabel);
+            badgeNotif.setVisible(false);
+            badgeNotif.setManaged(false);
+        }
     }
-
 
     private VBox createNotifItem(Pasien pasien) {
         VBox notifCard = new VBox();
-        notifCard.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand;");
+        notifCard.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5;");
+        notifCard.setOnMouseEntered(e -> notifCard.setStyle("-fx-background-color: #f0f8ff; -fx-padding: 10; -fx-border-color: #aaa; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand;"));
+        notifCard.setOnMouseExited(e -> notifCard.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand;"));
         notifCard.setSpacing(5);
-
         Label lblNama = new Label("Nama: " + pasien.getNamaPasien());
         Label lblTglDaftar = new Label("Daftar: " + pasien.getTglPendaftaran().toString());
-
         notifCard.getChildren().addAll(lblNama, lblTglDaftar);
-
         notifCard.setOnMouseClicked(e -> {
             notifPopup.hide();
-            badgeNotif.setVisible(false);
-            badgeNotif.setManaged(false);
+            PasienDAO dao = new PasienDAO();
+            dao.updateStatusNotifPendaftaran(pasien.getIdPendaftaran()); // update status_notif menjadi TRUE
             pindahKeDiagnosaDenganPasien(pasien);
+            cekPasienBaru(); // agar refresh popup setelah klik
         });
-
         return notifCard;
     }
 
     private void pindahKeDiagnosaDenganPasien(Pasien pasien) {
         showDiagnosa();
-
         if (currentController instanceof DiagnosisController diagnosisController) {
             diagnosisController.setDataPasein(pasien);
         }
@@ -320,5 +288,22 @@ public class TampilanUtamaController {
                 Platform.runLater(() -> cekPasienBaru());
             }
         }, 0, 5000);
+    }
+
+    public void bukaProfileAkun() {
+        Object controller = setContent("/com/example/appsaldi/view/pengaturan/profiledanakun.fxml");
+        if (controller instanceof ProfileAkunController profileAkunController) {
+            profileAkunController.setCurrentUser(currentUser);
+            Platform.runLater(profileAkunController::initFormData);
+        }
+        resetButtonStyles();
+        btnPengaturan.requestFocus();
+    }
+
+    public void bukaTantangAplikasi() {
+        setContent("/com/example/appsaldi/view/pengaturan/tentangaplikasi.fxml");
+        lblWelcome.setText("Tentang Aplikasi");
+        resetButtonStyles();
+        btnPengaturan.requestFocus();
     }
 }

@@ -1,5 +1,4 @@
 package com.example.appsaldi.controller.formcontroller;
-
 import com.example.appsaldi.dao.GejalaDAO;
 import com.example.appsaldi.model.Gejala;
 import com.example.appsaldi.utils.AlertUtils;
@@ -10,64 +9,44 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.Setter;
 import org.controlsfx.control.Notifications;
-
 import java.sql.SQLException;
 
 public class FormGejalaController {
 
-    @Setter
-    private String idGejalaYangSedangDiedit;
-    private GejalaDAO gejalaDAO = new GejalaDAO();
+    @Setter private String idGejalaYangSedangDiedit;
 
     @FXML private Label txtIdGejala;
     @FXML private TextArea txtNamaGejala;
     @FXML private Button btnBatalInput;
 
+    private GejalaDAO gejalaDAO = new GejalaDAO();
+
     @FXML
     private void handelSaveDataGejala() {
         String namaGejala = txtNamaGejala.getText();
-
         if (namaGejala.isEmpty()) {
             AlertUtils.showAlert(Alert.AlertType.WARNING, "Validasi", "Semua field wajib diisi!");
             return;
         }
-
         Gejala gejala = new Gejala(namaGejala);
-
         try {
             if (idGejalaYangSedangDiedit != null) {
                 gejala.setId_gejala(Integer.parseInt(idGejalaYangSedangDiedit));
                 gejalaDAO.updatetDataGejala(gejala);
-                Notifications.create()
-                        .title("Sukses")
-                        .text("Data gejala berhasil diperbarui.")
-                        .position(Pos.TOP_CENTER)
-                        .hideAfter(Duration.seconds(10))
-                        .showInformation();
+                AlertUtils.showNotificationSuccess("Data gejala berhasil diperbarui.");
                 this.idGejalaYangSedangDiedit = String.valueOf(gejala.getId_gejala());
             } else {
                 gejalaDAO.insertDataGejala(gejala);
-                Notifications.create()
-                        .title("Sukses")
-                        .text("Data gejala berhasil disimpan.")
-                        .position(Pos.TOP_CENTER)
-                        .hideAfter(Duration.seconds(10))
-                        .showInformation();
+                AlertUtils.showNotificationSuccess("Data gejala berhasil disimpan.");
             }
             resetForm();
         } catch (SQLException e) {
             e.printStackTrace();
-            Notifications.create()
-                    .title("Gagal")
-                    .text("Terjadi kesalahan saat menyimpan data gejala.")
-                    .position(Pos.TOP_CENTER)
-                    .hideAfter(Duration.seconds(10))
-                    .showError();
+            AlertUtils.showNotificationError("Terjadi kesalahan saat menyimpan data gejala.");
         }
     }
 
-    @FXML
-    private void handelBatalInput() {closeForm();}
+    @FXML private void handelBatalInput() {closeForm();}
 
     public void setDataGejala(Gejala gejala) {
         this.idGejalaYangSedangDiedit = String.valueOf(gejala.getId_gejala());
@@ -85,5 +64,4 @@ public class FormGejalaController {
         Stage stage = (Stage) btnBatalInput.getScene().getWindow();
         stage.close();
     }
-
 }

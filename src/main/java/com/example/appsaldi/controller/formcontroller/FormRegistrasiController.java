@@ -1,5 +1,4 @@
 package com.example.appsaldi.controller.formcontroller;
-
 import com.example.appsaldi.controller.DataController;
 import com.example.appsaldi.controller.poopupcontroller.PopupDataPasienController;
 import com.example.appsaldi.dao.PasienDAO;
@@ -19,14 +18,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Setter;
-import org.controlsfx.control.Notifications;
-import javafx.geometry.Pos;
-import javafx.util.Duration;
-
 import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class FormRegistrasiController {
+
+    @Setter private DataController dataController;
+    @Setter private boolean isFromCariPopup = false;
 
     @FXML private VBox rootVBox;
     @FXML private Label txtIdPasien;
@@ -36,11 +34,7 @@ public class FormRegistrasiController {
     @FXML private Button btnBatal, btnCariDataPasien;
 
     private PasienDAO pasienDAO = new PasienDAO();
-
-    @Setter
-    private String idPasienYangSedangDiedit;
-    @Setter
-    private DataController dataController;
+    private Integer idPasienUntukDaftarUlang = null;
 
     @FXML
     private void handleSave() {
@@ -50,7 +44,6 @@ public class FormRegistrasiController {
         String pekerjaanPasien = txtPekerjaan.getText();
         String noTlpPasien = txtNoTelepon.getText();
         String alamat = txtAlamat.getText();
-
         if (namaPasien.isEmpty() || tglLahirPasien == null
                 || nik.isEmpty() || pekerjaanPasien.isEmpty()
                 || noTlpPasien.isEmpty() || alamat.isEmpty()) {
@@ -58,37 +51,21 @@ public class FormRegistrasiController {
             return;
         }
 
-        Pasien pasien = new Pasien(namaPasien, tglLahirPasien, nik, pekerjaanPasien, noTlpPasien, alamat);
-
         try {
-            if (idPasienYangSedangDiedit != null) {
-                pasien.setIdPasien(Integer.valueOf(idPasienYangSedangDiedit));
-                pasienDAO.updatetDataPasien(pasien);
-                Notifications.create()
-                        .title("Sukses")
-                        .text("Data pasien berhasil diperbarui.")
-                        .position(Pos.TOP_CENTER)
-                        .hideAfter(Duration.seconds(10))
-                        .showInformation();
-                this.idPasienYangSedangDiedit = String.valueOf(pasien.getIdPasien());
+            if (idPasienUntukDaftarUlang != null) {
+                new com.example.appsaldi.dao.PendaftaranDAO().insert(idPasienUntukDaftarUlang);
+                AlertUtils.showNotificationSuccess("Pasien lama berhasil mendaftar ulang.");
             } else {
+                Pasien pasien = new Pasien(namaPasien, tglLahirPasien, nik, pekerjaanPasien, noTlpPasien, alamat);
                 pasienDAO.insertDataPasien(pasien);
-                Notifications.create()
-                        .title("Sukses")
-                        .text("Data pasien berhasil disimpan.")
-                        .position(Pos.TOP_CENTER)
-                        .hideAfter(Duration.seconds(10))
-                        .showInformation();
+                int idBaru = pasienDAO.getLastInsertedId();
+                new com.example.appsaldi.dao.PendaftaranDAO().insert(idBaru);
+                AlertUtils.showNotificationSuccess("Pasien baru berhasil didaftarkan.");
             }
             resetForm();
         } catch (SQLException e) {
             e.printStackTrace();
-            Notifications.create()
-                    .title("Gagal")
-                    .text("Terjadi kesalahan saat menyimpan data pasien.")
-                    .position(Pos.TOP_CENTER)
-                    .hideAfter(Duration.seconds(10))
-                    .showError();
+            AlertUtils.showNotificationSuccess("Terjadi kesalahan saat menyimpan data.");
         }
     }
 
@@ -102,34 +79,24 @@ public class FormRegistrasiController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/appsaldi/view/popup/popupdatapasien.fxml"));
             Parent root = loader.load();
-
             PopupDataPasienController popupController = loader.getController();
-            popupController.setListener(this::setDataPasein);
-
+            popupController.setListener(this::setDataPasienLama);
             Stage mainStage = (Stage) btnCariDataPasien.getScene().getWindow();
-
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.WINDOW_MODAL);
             popupStage.initOwner(mainStage);
             popupStage.initStyle(StageStyle.TRANSPARENT);
-
             mainStage.getScene().getRoot().setEffect(new GaussianBlur(10));
-
             popupStage.setOnHidden(e -> mainStage.getScene().getRoot().setEffect(null));
-
             Scene scene = new Scene(root);
             scene.setFill(Color.TRANSPARENT);
             popupStage.setScene(scene);
-
             popupStage.centerOnScreen();
-
             Platform.runLater(() -> {
                 popupStage.setX(mainStage.getX() + (mainStage.getWidth() / 2) - (popupStage.getWidth() / 2));
                 popupStage.setY(mainStage.getY() + (mainStage.getHeight() / 2) - (popupStage.getHeight() / 2));
             });
-
             popupStage.showAndWait();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,17 +117,25 @@ public class FormRegistrasiController {
             clip.setArcHeight(40);
             rootVBox.setClip(clip);
         });
+        setupButtonCariVisibility();
     }
 
-    public void setDataPasein(Pasien pasien) {
-        this.idPasienYangSedangDiedit = String.valueOf(pasien.getIdPasien());
-        txtIdPasien.setText(this.idPasienYangSedangDiedit);
+    public void setDataPasienLama(Pasien pasien) {
+        idPasienUntukDaftarUlang = pasien.getIdPasien();
+        txtIdPasien.setText(String.valueOf(pasien.getIdPasien()));
         txtNamaPasien.setText(pasien.getNamaPasien());
         txtNIK.setText(pasien.getNik());
         txtTglLahir.setValue(pasien.getTglLahirPasien());
         txtNoTelepon.setText(pasien.getNoTlpPasien());
         txtPekerjaan.setText(pasien.getPekerjaan());
         txtAlamat.setText(pasien.getAlamatPasien());
+
+        txtNamaPasien.setDisable(true);
+        txtNIK.setDisable(true);
+        txtTglLahir.setDisable(true);
+        txtNoTelepon.setDisable(true);
+        txtPekerjaan.setDisable(true);
+        txtAlamat.setDisable(true);
     }
 
     public void resetForm() {
@@ -171,7 +146,19 @@ public class FormRegistrasiController {
         txtPekerjaan.setText("");
         txtNoTelepon.setText("");
         txtAlamat.setText("");
-        idPasienYangSedangDiedit = null;
+        idPasienUntukDaftarUlang = null;
+
+        txtNamaPasien.setDisable(false);
+        txtNIK.setDisable(false);
+        txtTglLahir.setDisable(false);
+        txtNoTelepon.setDisable(false);
+        txtPekerjaan.setDisable(false);
+        txtAlamat.setDisable(false);
     }
 
+    public void setupButtonCariVisibility() {
+        btnCariDataPasien.setVisible(isFromCariPopup);
+        btnCariDataPasien.setManaged(isFromCariPopup);
+    }
 }
+

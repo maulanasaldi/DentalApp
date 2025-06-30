@@ -1,10 +1,7 @@
 package com.example.appsaldi.controller;
-
 import com.example.appsaldi.connectiondb.ConnectionDB;
-import com.example.appsaldi.dao.GejalaDAO;
-import com.example.appsaldi.dao.PasienDAO;
-import com.example.appsaldi.dao.PenyakitDAO;
-import com.example.appsaldi.dao.RiwayatDAO;
+import com.example.appsaldi.dao.*;
+import com.example.appsaldi.model.Aturan;
 import com.example.appsaldi.model.Riwayat;
 import com.example.appsaldi.model.UsersModel;
 import com.example.appsaldi.utils.AlertUtils;
@@ -28,7 +25,6 @@ import lombok.Setter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
-
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -42,39 +38,41 @@ public class LaporanController {
 
     @FXML private HBox menu;
     @FXML private Label lblNamaData, lblSampai;
-    @FXML private Button btnPasien;
     @FXML private TableView tblData;
     @FXML private DatePicker dpTglAwal, dpTglAkhir;
 
     public enum JenisData {
-        PASIEN, PENYAKIT, GEJALA, RIWAYAT
+        PASIEN, PENYAKIT, GEJALA, ATURAN, RIWAYAT
     }
 
     private JenisData jenisDataAktif;
 
     @FXML public void initialize() {
-        tampilkanDataPasien();
-        btnPasien.setOnAction(e -> tampilkanDataPasien());
-        Platform.runLater(this::sembunyikanTombolJikaResepsionis);
-    }
-
-    public void sembunyikanTombolJikaResepsionis() {
-        if (currentUser != null && "resepsionis".equalsIgnoreCase(currentUser.getStatus())) {
-            menu.setVisible(false);
-            menu.setManaged(false);
-            lblNamaData.setVisible(false);
-            lblNamaData.setManaged(false);
-        }
+        Platform.runLater(() -> {
+            if (currentUser != null) {
+                String status = currentUser.getStatus().toLowerCase();
+                switch (status) {
+                    case "resepsionis" -> {
+                        menu.setVisible(false);
+                        menu.setManaged(false);
+                        lblNamaData.setVisible(false);
+                        tampilkanDataPasien();
+                    }
+                    case "dokter" -> {
+                        try {
+                            datePickerHidden();
+                            tampilkanDataPenyakit();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @FXML private void handelCetakData() {
         cetakLaporan();
-    }
-
-    @FXML private void showDataPasien(){
-        datePickerShow();
-        tampilkanDataPasien();
-        tblData.refresh();
     }
 
     @FXML public void showRiwayatDiagnosa(){
@@ -95,7 +93,12 @@ public class LaporanController {
         tblData.refresh();
     }
 
-    // Menampilkan data pasien
+    @FXML private void showDataAturan() {
+        datePickerHidden();
+        tampilkanDataAturan();
+        tblData.refresh();
+    }
+
     public void tampilkanDataPasien() {
         try {
             jenisDataAktif = JenisData.PASIEN;
@@ -117,7 +120,6 @@ public class LaporanController {
         }
     }
 
-    // Menampilkan data penyakit
     public void tampilkanDataPenyakit() throws SQLException {
         jenisDataAktif = JenisData.PENYAKIT;
         tblData.getColumns().clear();
@@ -132,7 +134,6 @@ public class LaporanController {
         setTableData(FXCollections.observableArrayList(new PenyakitDAO().getAllPenyakit()), "Data Penyakit");
     }
 
-    // Menampilkan data gejala
     public void tampilkanDataGejala() {
         jenisDataAktif = JenisData.GEJALA;
         tblData.getColumns().clear();
@@ -145,7 +146,34 @@ public class LaporanController {
         setTableData(FXCollections.observableArrayList(new GejalaDAO().getAllGejala()), "Data Gejala");
     }
 
-    // Menampilkan data riwayat diagnosa
+    public void tampilkanDataAturan() {
+        jenisDataAktif = LaporanController.JenisData.ATURAN;
+        tblData.getColumns().clear();
+        TableColumn<Aturan, String> colIdAturan = new TableColumn<>("ID Aturan");
+        colIdAturan.setCellValueFactory(cellData ->
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getIdAturan()))
+        );
+        colIdAturan.setCellFactory(tc -> createWrappingCell());
+        TableColumn<Aturan, String> colIdPenyakit = new TableColumn<>("ID Penyakit");
+        colIdPenyakit.setCellValueFactory(cellData ->
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getIdPenyakit()))
+        );
+        colIdPenyakit.setCellFactory(tc -> createWrappingCell());
+        TableColumn<Aturan, String> colIDGejala = new TableColumn<>("ID Gejala");
+        colIDGejala.setCellValueFactory(cellData ->
+                new SimpleStringProperty(String.valueOf(cellData.getValue().getGejalaFormated()))
+        );
+        colIdPenyakit.setCellFactory(tc -> createWrappingCell());
+        tblData.getColumns().addAll(
+                colIdAturan, colIdPenyakit, colIDGejala
+        );
+        try {
+            setTableData(FXCollections.observableArrayList(new KnowladgeDAO().getAllAturan()), "Data Aturan");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void tampilkanRiwayatDiagnosa() {
         jenisDataAktif = JenisData.RIWAYAT;
         tblData.getColumns().clear();
@@ -219,7 +247,6 @@ public class LaporanController {
     }
 
     public void cetakLaporan() {
-        // Buat Stage loading
         Stage loadingStage = new Stage();
         VBox root = new VBox(10);
         root.setAlignment(Pos.CENTER);
@@ -231,7 +258,6 @@ public class LaporanController {
         loadingStage.setResizable(false);
         loadingStage.setTitle("Loading");
 
-        // Buat task untuk cetak laporan
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -260,6 +286,10 @@ public class LaporanController {
 
                     case GEJALA:
                         reportPath = "/com/example/appsaldi/report/laporangejala.jasper";
+                        break;
+
+                    case ATURAN:
+                        reportPath = "/com/example/appsaldi/report/laporanaturan.jasper";
                         break;
 
                     case RIWAYAT:
@@ -303,7 +333,6 @@ public class LaporanController {
             }
         };
 
-        // Tampilkan loading dan mulai task
         loadingStage.show();
         Thread thread = new Thread(task);
         thread.setDaemon(true);

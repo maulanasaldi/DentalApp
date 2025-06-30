@@ -21,7 +21,6 @@ public class AlertUtils {
                 .text(message)
                 .position(Pos.TOP_CENTER)
                 .hideAfter(Duration.seconds(3))
-                .darkStyle()
                 .showInformation();
     }
 
@@ -31,7 +30,15 @@ public class AlertUtils {
                 .text(message)
                 .position(Pos.TOP_CENTER)
                 .hideAfter(Duration.seconds(3))
-                .darkStyle()
+                .showError();
+    }
+
+    public static void showNotificationWarning(String message) {
+        Notifications.create()
+                .title("Error")
+                .text(message)
+                .position(Pos.TOP_CENTER)
+                .hideAfter(Duration.seconds(3))
                 .showError();
     }
 }

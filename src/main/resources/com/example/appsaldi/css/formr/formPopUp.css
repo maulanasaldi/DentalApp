@@ -83,6 +83,55 @@
     -fx-text-fill: black;
 }
 
+.table-cell {
+    -fx-text-fill: black;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 1px 0 0;
+    -fx-padding: 10px;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #eee;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+    -fx-text-fill: black;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #bbdefb;
+    -fx-text-fill: black;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10px;
+    -fx-font-family: "Poppins";
+    -fx-padding: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #D4EAF7;
+    -fx-background-radius: 10px 10px 0px 0px;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 10px 10px 0px 0px;
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-alignment: left;
+    -fx-background-color: transparent;
+    -fx-border-color: #ddd;
+    -fx-font-weight: bold;
+    -fx-size: 40px;
+}
+
 .title_point {
     -fx-text-fill: black;
     -fx-font-size: 14px;

@@ -1,9 +1,8 @@
 package com.example.appsaldi.controller.poopupcontroller;
 import com.example.appsaldi.controller.DataController;
 import com.example.appsaldi.controller.DiagnosisController;
-import com.example.appsaldi.controller.formcontroller.FormEditPasienController;
-import com.example.appsaldi.controller.formcontroller.FormRegistrasiController;
 import com.example.appsaldi.controller.PasienSelectionListener;
+import com.example.appsaldi.controller.formcontroller.FormRegistrasiController;
 import com.example.appsaldi.controller.formcontroller.FormRiwayatController;
 import com.example.appsaldi.dao.PasienDAO;
 import com.example.appsaldi.model.Pasien;
@@ -20,50 +19,43 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lombok.Setter;
-import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
-public class PopupDataPasienController implements PopupSingleSelectController<Pasien> {
+public class PopupDataPendaftarController implements PopupSingleSelectController<Pasien> {
 
     @Setter private FormRegistrasiController parentFormRegistrasiController;
-    @Setter private FormRiwayatController parentFormRiwayatController;
-    @Setter private FormEditPasienController parentEditPasienController;
     @Setter private DiagnosisController parentDiagnosaController;
     @Setter private DataController parentDataController;
+    @Setter private FormRiwayatController parentFormRiwayatController;
 
     @FXML private Button btnKeluar;
     @FXML private TextField txtCariDataPasien;
     @FXML private TableView<Pasien> tblDataPasien;
 
+    private PasienSelectionListener listener;
     private ObservableList<Pasien> masterData = FXCollections.observableArrayList();
     private Consumer<Pasien> pasienConsumer;
-    private PasienSelectionListener listener;
 
     @FXML
     private void initialize() {
-        TableColumn<Pasien, String> colIdPasien = new TableColumn<>("ID Pasien");
-        colIdPasien.setCellValueFactory(new PropertyValueFactory<>("idPasien"));
-        TableColumn<Pasien, String> colNama = new TableColumn<>("Nama");
+        TableColumn<Pasien, String> colIdPendaftaran = new TableColumn<>("ID Pendaftaran");
+        colIdPendaftaran.setCellValueFactory(new PropertyValueFactory<>("idPendaftaran"));
+        TableColumn<Pasien, String> colNama = new TableColumn<>("Nama Pasien");
         colNama.setCellValueFactory(new PropertyValueFactory<>("namaPasien"));
-        TableColumn<Pasien, String> colTglLahirPasien = new TableColumn<>("Tanggal Lahir");
-        colTglLahirPasien.setCellValueFactory(cellData -> {
-            if (cellData.getValue().getTglLahirPasien() != null) {
-                return new SimpleStringProperty(formatTanggal(cellData.getValue().getTglLahirPasien()));
+        TableColumn<Pasien, String> colTglDaftar = new TableColumn<>("Tanggal Daftar");
+        colTglDaftar.setCellValueFactory(cellData -> {
+            Timestamp tglPendaftaran = cellData.getValue().getTglPendaftaran();
+            if (tglPendaftaran != null) {
+                LocalDate tgl = tglPendaftaran.toLocalDateTime().toLocalDate();
+                return new SimpleStringProperty(formatTanggal(tgl));
             } else {
                 return new SimpleStringProperty("-");
             }
         });
-        TableColumn<Pasien, String> colNIK = new TableColumn<>("NIK");
-        colNIK.setCellValueFactory(new PropertyValueFactory<>("nik"));
-        TableColumn<Pasien, String> colPekerjaan = new TableColumn<>("Pekerjaan");
-        colPekerjaan.setCellValueFactory(new PropertyValueFactory<>("pekerjaan"));
-        TableColumn<Pasien, String> colNoTlpPasien = new TableColumn<>("No. Telepon");
-        colNoTlpPasien.setCellValueFactory(new PropertyValueFactory<>("noTlpPasien"));
-        TableColumn<Pasien, String> colAlamat = new TableColumn<>("Alamat");
-        colAlamat.setCellValueFactory(new PropertyValueFactory<>("alamatPasien"));
-        tblDataPasien.getColumns().addAll(colIdPasien, colNama, colTglLahirPasien, colNIK, colPekerjaan, colNoTlpPasien, colAlamat);
+        tblDataPasien.getColumns().addAll(colIdPendaftaran, colNama, colTglDaftar);
         loadDataFormDatabase();
         tblDataPasien.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getClickCount() == 1) {
@@ -77,8 +69,6 @@ public class PopupDataPasienController implements PopupSingleSelectController<Pa
                         parentDiagnosaController.setDataPasein(selected);
                     } else if (parentFormRiwayatController != null) {
                         parentFormRiwayatController.setDataPasein(selected);
-                    } else if (parentEditPasienController != null) {
-                        parentEditPasienController.setDataPasien(selected);
                     }
                     if (pasienConsumer != null) {
                         pasienConsumer.accept(selected);
@@ -92,29 +82,21 @@ public class PopupDataPasienController implements PopupSingleSelectController<Pa
 
     public void loadDataFormDatabase() {
         PasienDAO pasienDAO = new PasienDAO();
-        try {
-            masterData.setAll(pasienDAO.getAllPasien());
-            FilteredList<Pasien> filteredData = new FilteredList<>(masterData, b -> true);
-            txtCariDataPasien.textProperty().addListener((observable, oldValue, newValue) -> {
-                filteredData.setPredicate(pasien -> {
-                    if (newValue == null || newValue.isEmpty()) {
-                        return true;
-                    }
-                    String lowerCaseFilter = newValue.toLowerCase();
-                    return String.valueOf(pasien.getIdPasien()).toLowerCase().contains(lowerCaseFilter)
-                            || pasien.getNamaPasien().toLowerCase().contains(lowerCaseFilter)
-                            || pasien.getNik().toLowerCase().contains(lowerCaseFilter)
-                            || pasien.getPekerjaan().toLowerCase().contains(lowerCaseFilter)
-                            || pasien.getNoTlpPasien().toLowerCase().contains(lowerCaseFilter)
-                            || pasien.getAlamatPasien().toLowerCase().contains(lowerCaseFilter);
-                });
+        masterData.setAll(pasienDAO.getPasienBelumDidiagnosa());
+        FilteredList<Pasien> filteredData = new FilteredList<>(masterData, b -> true);
+        txtCariDataPasien.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(pasien -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return String.valueOf(pasien.getIdPasien()).toLowerCase().contains(lowerCaseFilter)
+                        || pasien.getNamaPasien().toLowerCase().contains(lowerCaseFilter);
             });
-            SortedList<Pasien> sortedData = new SortedList<>(filteredData);
-            sortedData.comparatorProperty().bind(tblDataPasien.comparatorProperty());
-            tblDataPasien.setItems(sortedData);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        });
+        SortedList<Pasien> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tblDataPasien.comparatorProperty());
+        tblDataPasien.setItems(sortedData);
     }
 
     private String formatTanggal(LocalDate tanggal) {

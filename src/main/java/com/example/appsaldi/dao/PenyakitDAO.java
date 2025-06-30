@@ -92,6 +92,4 @@ public class PenyakitDAO {
         return list;
     }
 
-
-
 }
