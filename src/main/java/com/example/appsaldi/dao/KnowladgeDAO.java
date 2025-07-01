@@ -99,12 +99,10 @@ public class KnowladgeDAO {
 
     public List<Aturan> searchAturan(String keyword) throws SQLException {
         List<Aturan> list = new ArrayList<>();
-        String sql = "SELECT bp.id_aturan, bp.id_penyakit, g.nama_gejala " +
-                "FROM basis_pengetahuan bp " +
-                "JOIN gejala g ON bp.id_gejala = g.id_gejala " +
-                "WHERE CAST(bp.id_aturan AS CHAR) LIKE ? OR " +
-                "CAST(bp.id_penyakit AS CHAR) LIKE ? OR " +
-                "LOWER(g.nama_gejala) LIKE ?";
+        String sql = "SELECT * FROM basis_pengetahuan WHERE " +
+                "LOWER (id_aturan) LIKE ? OR " +
+                "LOWER (id_penyakit) LIKE ? OR " +
+                "LOWER (id_gejala) LIKE ?";
 
         try (Connection conn = ConnectionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -120,7 +118,7 @@ public class KnowladgeDAO {
             while (rs.next()) {
                 int idAturan = rs.getInt("id_aturan");
                 int idPenyakit = rs.getInt("id_penyakit");
-                String namaGejala = rs.getString("nama_gejala");
+                String namaGejala = rs.getString("id_gejala");
 
                 Aturan aturan = mapAturan.get(idAturan);
                 if (aturan == null) {

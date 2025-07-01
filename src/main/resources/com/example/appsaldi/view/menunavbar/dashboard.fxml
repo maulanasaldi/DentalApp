@@ -7,16 +7,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="panelDashboard" prefHeight="565.0" prefWidth="900.0" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.DashboardController">
+<VBox fx:id="panelDashboard" prefHeight="565.0" prefWidth="1120.0" stylesheets="@../../css/theme-light.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.appsaldi.controller.DashboardController">
    <children>
       <HBox prefHeight="213.0" prefWidth="900.0" styleClass="penampil" VBox.vgrow="ALWAYS">
          <children>
-            <VBox prefHeight="220.0" prefWidth="680.0" HBox.hgrow="NEVER">
+            <VBox prefHeight="220.0" prefWidth="1129.0" HBox.hgrow="NEVER">
                <children>
                   <HBox prefHeight="120.0" prefWidth="660.0" VBox.vgrow="ALWAYS">
                      <children>
@@ -37,7 +39,7 @@
                               <Insets right="15.0" />
                            </HBox.margin>
                         </VBox>
-                        <VBox layoutX="10.0" layoutY="20.0" prefHeight="120.0" prefWidth="311.0" styleClass="pane-informasi-dashboard">
+                        <VBox layoutX="10.0" layoutY="20.0" prefHeight="120.0" prefWidth="311.0" styleClass="pane-informasi-dashboard" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="title-dashboard" text="Penyakit terbanyak:">
                                  <VBox.margin>
@@ -54,7 +56,15 @@
                                  </children>
                               </HBox>
                            </children>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
                         </VBox>
+                        <PieChart fx:id="pieChart" prefWidth="400.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </PieChart>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -65,7 +75,7 @@
                   </HBox>
                   <HBox prefHeight="49.0" prefWidth="670.0" VBox.vgrow="NEVER">
                      <children>
-                        <Button fx:id="btnOpenFormRegistrasi" alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="30.0" layoutY="20.0" mnemonicParsing="false" onAction="#showFormRegistrasi" styleClass="colored-button" text="Register Pasien" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnRegistrasiPasienBaru" alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="30.0" layoutY="20.0" mnemonicParsing="false" onAction="#showFormRegistrasiBaru" styleClass="colored-button" text="Register Pasien Baru" HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -74,15 +84,30 @@
                               </ImageView>
                            </graphic>
                            <HBox.margin>
-                              <Insets left="25.0" top="10.0" />
+                              <Insets left="25.0" />
                            </HBox.margin>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
+                        <Button fx:id="btnRegistrasiPasienLama" alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="35.0" layoutY="25.0" mnemonicParsing="false" onAction="#showFormRegistrasiLama" styleClass="colored-button" text="Register Pasien Lama">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../img/icon-light-registrasi-pasien.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Button>
                         <Button fx:id="btnStartDiagnosis" alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#showStartDiagnosis" styleClass="colored-button" text="Mulai Diagnosa" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="15.0" top="10.0" />
+                              <Insets left="25.0" />
                            </HBox.margin>
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -104,15 +129,21 @@
                               </ImageView>
                            </graphic>
                            <HBox.margin>
-                              <Insets left="15.0" top="10.0" />
+                              <Insets left="15.0" />
                            </HBox.margin>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
+                        <Region prefHeight="40.0" prefWidth="47.0" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtCari" prefWidth="250.0">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </TextField>
                      </children>
                      <padding>
-                        <Insets right="15.0" top="5.0" />
+                        <Insets bottom="10.0" right="15.0" top="10.0" />
                      </padding>
                      <VBox.margin>
                         <Insets />
@@ -120,19 +151,11 @@
                   </HBox>
                </children>
             </VBox>
-            <HBox prefHeight="226.0" prefWidth="278.0" styleClass="penampil" HBox.hgrow="ALWAYS">
-               <children>
-                  <PieChart fx:id="pieChart" prefHeight="1000.0" prefWidth="1000.0" HBox.hgrow="ALWAYS" />
-               </children>
-               <padding>
-                  <Insets right="25.0" top="10.0" />
-               </padding>
-            </HBox>
          </children>
       </HBox>
       <VBox prefHeight="358.0" prefWidth="900.0" styleClass="penampil" VBox.vgrow="ALWAYS">
          <children>
-            <TableView fx:id="pasien" prefHeight="363.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="pasien" prefHeight="325.0" prefWidth="1078.0" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn prefWidth="150.0" text="Tanggal" />
                   <TableColumn prefWidth="300.0" text="Nama Pasien" />
@@ -146,7 +169,7 @@
             </TableView>
          </children>
          <VBox.margin>
-            <Insets top="15.0" />
+            <Insets />
          </VBox.margin>
       </VBox>
    </children>

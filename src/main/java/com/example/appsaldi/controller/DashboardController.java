@@ -13,10 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.HBox;
@@ -25,17 +22,19 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Setter;
+
+import java.sql.SQLException;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class DashboardController {
 
-    @Setter
-    private UsersModel currentUser;
-    @Setter
-    private TampilanUtamaController utamaController;
+    @Setter private UsersModel currentUser;
+    @Setter private TampilanUtamaController utamaController;
 
-    @FXML private Button btnOpenFormRegistrasi, btnStartDiagnosis, btnViewHistory;
+    @FXML private Button btnRegistrasiPasienBaru, btnRegistrasiPasienLama, btnStartDiagnosis, btnViewHistory;
     @FXML private PieChart pieChart;
+    @FXML private TextField txtCari;
     @FXML private TableView pasien;
     @FXML private Label lblJumlahPasien, lblPenyakitTerbanyak;
     @FXML private HBox mainBox;
@@ -46,14 +45,54 @@ public class DashboardController {
         tampilkanDataPasien();
         tampilkanStatistikDiagnosa();
         Platform.runLater(this::sembunyikanTombolJikaResepsionis);
+        initializeCariListener();
+    }
+
+    private void initializeCariListener() {
+        txtCari.textProperty().addListener((observable, oldValue, newValue) -> {
+            cariDataPasien(newValue);
+        });
+    }
+
+    private void cariDataPasien(String keyword) {
+        PasienDAO pasienDAO = new PasienDAO();
+        ObservableList<Pasien> allPasien = FXCollections.observableArrayList();
+        try {
+            allPasien.addAll(pasienDAO.getAllPasien());
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                String lowerKeyword = keyword.toLowerCase();
+                ObservableList<Pasien> filtered = allPasien.filtered(pasien ->
+                        pasien.getNamaPasien().toLowerCase().contains(lowerKeyword) ||
+                                pasien.getNoTlpPasien().toLowerCase().contains(keyword) ||
+                                pasien.getAlamatPasien().toLowerCase().contains(keyword) ||
+                                pasien.getNik().toLowerCase().contains(keyword)
+                );
+                pasien.setItems(filtered);
+            } else {
+                pasien.setItems(allPasien);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void sembunyikanTombolJikaResepsionis() {
-        if (currentUser != null && "resepsionis".equalsIgnoreCase(currentUser.getStatus())) {
-            btnStartDiagnosis.setVisible(false);
-            btnStartDiagnosis.setManaged(false);
-            btnViewHistory.setVisible(false);
-            btnViewHistory.setManaged(false);
+        if (currentUser != null) {
+            String status = currentUser.getStatus().toLowerCase();
+            switch (status) {
+                case "resepsionis" :
+                    btnStartDiagnosis.setVisible(false);
+                    btnStartDiagnosis.setManaged(false);
+                    btnViewHistory.setVisible(false);
+                    btnViewHistory.setManaged(false);
+                    break;
+                case "dokter" :
+                    btnRegistrasiPasienLama.setVisible(false);
+                    btnRegistrasiPasienLama.setManaged(false);
+                    btnRegistrasiPasienBaru.setVisible(false);
+                    btnRegistrasiPasienBaru.setManaged(false);
+                    break;
+            }
         }
     }
 
@@ -77,13 +116,22 @@ public class DashboardController {
     }
 
     @FXML
-    private void showFormRegistrasi() {
+    private void showFormRegistrasiBaru() {
+        bukaPopupFormRegistrasi(btnRegistrasiPasienBaru, false);
+    }
+
+    @FXML
+    private void showFormRegistrasiLama() {
+        bukaPopupFormRegistrasi(btnRegistrasiPasienLama, true);
+    }
+
+    private void bukaPopupFormRegistrasi(Button sumberTombol, boolean tampilkanTombolCari) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/appsaldi/view/form/formregistrasi.fxml"));
             Parent root = loader.load();
-            Stage mainStage = (Stage) btnOpenFormRegistrasi.getScene().getWindow();
+            Stage mainStage = (Stage) sumberTombol.getScene().getWindow();
             FormRegistrasiController controller = loader.getController();
-            controller.setFromCariPopup(true);
+            controller.setFromCariPopup(tampilkanTombolCari);
             controller.setupButtonCariVisibility();
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.WINDOW_MODAL);
@@ -162,7 +210,7 @@ public class DashboardController {
         PasienDAO pasienDAO = new PasienDAO();
         ObservableList<Pasien> data = FXCollections.observableArrayList();
         try {
-            data.addAll(pasienDAO.getPasienTerbaru(8)); // Hanya tampilkan 5 pasien terbaru
+            data.addAll(pasienDAO.getAllPasien());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,4 +223,5 @@ public class DashboardController {
         col.prefWidthProperty().bind(pasien.widthProperty().multiply(percentage));
         return col;
     }
+
 }

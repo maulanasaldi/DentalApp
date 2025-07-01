@@ -66,6 +66,8 @@ public class DataController {
                         }
                     }
                 }
+            } else {
+                System.out.println("Status user null");
             }
             txtCariData.textProperty().addListener((obs, oldVal, newVal) -> cariData(newVal));
         });
@@ -251,11 +253,11 @@ public class DataController {
                         "/com/example/appsaldi/view/form/formdatagejala.fxml",
                         loader -> {
                             FormGejalaController controller = loader.getController();
-                            controller.resetForm(); // Pastikan resetForm() public
+                            controller.resetForm();
                         }
                 );
                 try {
-                    tampilkanDataGejala(); // Refresh tabel setelah tambah data
+                    tampilkanDataGejala();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

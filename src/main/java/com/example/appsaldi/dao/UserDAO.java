@@ -76,6 +76,7 @@ public class UserDAO {
                 user.setPassword(rs.getString("password"));
                 user.setNama(rs.getString("nama_lengkap"));
                 user.setFotoPath(rs.getString("foto"));
+                user.setStatus(rs.getString("role"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

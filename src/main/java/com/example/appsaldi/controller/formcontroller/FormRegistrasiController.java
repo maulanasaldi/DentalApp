@@ -56,9 +56,12 @@ public class FormRegistrasiController {
                 new com.example.appsaldi.dao.PendaftaranDAO().insert(idPasienUntukDaftarUlang);
                 AlertUtils.showNotificationSuccess("Pasien lama berhasil mendaftar ulang.");
             } else {
+                if (pasienDAO.isNikExist(nik)) {
+                    AlertUtils.showAlert(Alert.AlertType.ERROR, "NIK Duplikat", "NIK sudah terdaftar sebagai pasien!");
+                    return;
+                }
                 Pasien pasien = new Pasien(namaPasien, tglLahirPasien, nik, pekerjaanPasien, noTlpPasien, alamat);
-                pasienDAO.insertDataPasien(pasien);
-                int idBaru = pasienDAO.getLastInsertedId();
+                int idBaru = pasienDAO.insertDataPasien(pasien);
                 new com.example.appsaldi.dao.PendaftaranDAO().insert(idBaru);
                 AlertUtils.showNotificationSuccess("Pasien baru berhasil didaftarkan.");
             }

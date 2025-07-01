@@ -67,8 +67,8 @@
                      </Label>
                      <HBox alignment="CENTER" prefHeight="30.0" styleClass="arrow-button">
                         <children>
-                           <TextField fx:id="txtNIK" prefHeight="30.0" prefWidth="200.0" styleClass="text-field" HBox.hgrow="ALWAYS" />
-                           <Button fx:id="btnCariDataPasien" mnemonicParsing="false" onAction="#showPopupDataPasien" prefHeight="30.0" styleClass="button-handle-popup" text="Cari">
+                           <TextField fx:id="txtNIK" prefHeight="30.0" styleClass="text-field" HBox.hgrow="ALWAYS" />
+                           <Button fx:id="btnCariDataPasien" mnemonicParsing="false" onAction="#showPopupDataPasien" prefHeight="30.0" prefWidth="83.0" styleClass="button-handle-popup" text="Cari">
                               <cursor>
                                  <Cursor fx:constant="HAND" />
                               </cursor>

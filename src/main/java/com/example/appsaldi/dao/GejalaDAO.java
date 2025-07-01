@@ -2,7 +2,6 @@ package com.example.appsaldi.dao;
 
 import com.example.appsaldi.connectiondb.ConnectionDB;
 import com.example.appsaldi.model.Gejala;
-import com.example.appsaldi.model.Penyakit;
 
 import java.sql.*;
 import java.util.ArrayList;

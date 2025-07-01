@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 public class PendaftaranDAO {
 
-    // Menambahkan pendaftaran baru untuk pasien tertentu
     public void insert(int idPasien) throws SQLException {
         String sql = "INSERT INTO pendaftaran (id_pasien, tanggal_daftar, status_diagnosa) VALUES (?, NOW(), 'BELUM')";
 
@@ -20,5 +19,4 @@ public class PendaftaranDAO {
         }
     }
 
-    // Opsional: kamu bisa menambahkan metode lain, seperti update status_diagnosa jadi "SELESAI", dll.
 }

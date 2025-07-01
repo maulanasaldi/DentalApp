@@ -33,7 +33,7 @@ public class TampilanUtamaController {
 
     @FXML private Circle imageProfile;
     @FXML public Label lblWelcome, lblNama, lblStatus;
-    @FXML public Button btnDiagnosa, btnLaporan, btnData, btnPengaturan, btnKeluar;
+    @FXML public Button btnDiagnosa, btnLaporan, btnData, btnKeluar;
     @FXML private StackPane contentPane;
     @FXML private Button btnNotif;
     @FXML private Label badgeNotif;
@@ -100,7 +100,6 @@ public class TampilanUtamaController {
         btnDiagnosa.setStyle("");
         btnLaporan.setStyle("");
         btnData.setStyle("");
-        btnPengaturan.setStyle("");
     }
 
     @FXML
@@ -159,12 +158,10 @@ public class TampilanUtamaController {
     }
 
     @FXML
-    public void showPengaturan() {
+    public void handleClickProfile() {
         setContent("/com/example/appsaldi/view/menunavbar/pengaturan.fxml");
         lblWelcome.setText("Pengaturan");
         resetButtonStyles();
-        btnPengaturan.requestFocus();
-        btnPengaturan.setStyle("-fx-background-color: #D4EAF7; -fx-font-weight: bold;");
     }
 
     @FXML
@@ -297,13 +294,11 @@ public class TampilanUtamaController {
             Platform.runLater(profileAkunController::initFormData);
         }
         resetButtonStyles();
-        btnPengaturan.requestFocus();
     }
 
     public void bukaTantangAplikasi() {
         setContent("/com/example/appsaldi/view/pengaturan/tentangaplikasi.fxml");
         lblWelcome.setText("Tentang Aplikasi");
         resetButtonStyles();
-        btnPengaturan.requestFocus();
     }
 }

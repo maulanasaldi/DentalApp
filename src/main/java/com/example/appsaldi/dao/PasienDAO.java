@@ -2,7 +2,6 @@ package com.example.appsaldi.dao;
 import com.example.appsaldi.connectiondb.ConnectionDB;
 import com.example.appsaldi.model.Pasien;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,20 +9,28 @@ import java.util.Map;
 
 public class PasienDAO {
 
-    public void insertDataPasien(Pasien pasien) throws SQLException {
+    public int insertDataPasien(Pasien pasien) throws SQLException {
         String sql = "INSERT INTO pasien (nama_pasien, tgl_lahir, nik, pekerjaan, no_tlpn_pasien, alamat_pasien, status_notif) VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = ConnectionDB.getConnection()){
-            PreparedStatement insertStatement = conn.prepareStatement(sql);
+            PreparedStatement insertStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             insertStatement.setString(1, pasien.getNamaPasien());
             insertStatement.setDate(2, Date.valueOf(pasien.getTglLahirPasien()));
             insertStatement.setString(3, pasien.getNik());
             insertStatement.setString(4, pasien.getPekerjaan());
             insertStatement.setString(5, pasien.getNoTlpPasien());
             insertStatement.setString(6, pasien.getAlamatPasien());
-            insertStatement.setBoolean(7, false); // status_notif default
-            insertStatement.executeUpdate();
-            int idBaru = getLastInsertedId();
-            new PendaftaranDAO().insert(idBaru);
+            insertStatement.setBoolean(7, false);
+            int rowsAffected = insertStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("gagal menyimpan data pasien, tidak ada baris yang terpengaruhi");
+            }
+            try (ResultSet generatedKeys = insertStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Gagal mendapatkan id pasien yang baru disimpan");
+                }
+            }
         } catch (SQLException e) {
             throw new SQLException("Gagal menyimpan data pasien: " + e.getMessage());
         }
@@ -118,6 +125,7 @@ public class PasienDAO {
     }
 
     public Map<String, Integer> getJumlahPasienPerPekerjaan() {
+        System.out.println();
         Map<String, Integer> data = new HashMap<>();
         String query = "SELECT pekerjaan, COUNT(*) AS jumlah FROM pasien GROUP BY pekerjaan";
         try (Connection conn = ConnectionDB.getConnection();
@@ -224,18 +232,6 @@ public class PasienDAO {
         }
     }
 
-    public int getLastInsertedId() throws SQLException {
-        String sql = "SELECT LAST_INSERT_ID()";
-        try (Connection conn = ConnectionDB.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        }
-        return -1;
-    }
-
     public void updateStatusNotifPendaftaran(int idPendaftaran) {
         String query = "UPDATE pendaftaran SET status_notif = TRUE WHERE id_pendaftaran = ?";
         try (Connection conn = ConnectionDB.getConnection();
@@ -246,4 +242,15 @@ public class PasienDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean isNikExist(String nik) throws SQLException {
+        String query = "SELECT 1 FROM pasien WHERE nik = ? LIMIT 1";
+        try (Connection conn = ConnectionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nik);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        }
+    }
+
 }
