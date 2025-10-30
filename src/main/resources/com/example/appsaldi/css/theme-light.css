@@ -26,16 +26,33 @@
     -fx-padding: 8px;
 }
 
-.chart-title {
-    -fx-font-family: "Poppins";
-    -fx-font-size: 18px;
+.chart-bar {
+    -fx-bar-fill: #2196F3;
+    -fx-background-radius: 5px;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #00BCD4;
+}
+
+.chart-plot-background {
+    -fx-background-color: #f4f4f4;
+}
+
+.chart-legend {
+    -fx-text-fill: #333;
+    -fx-font-size: 13px;
+}
+
+.axis-label {
+    -fx-text-fill: #333;
     -fx-font-weight: bold;
 }
 
-.chart-pie-label {
-    -fx-font-family: "Poppins";
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
+.chart-title {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Poppins Regular";
+    -fx-font-size: 14px;
 }
 
 .colored-button {

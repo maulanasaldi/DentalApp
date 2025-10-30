@@ -29,14 +29,12 @@ import java.util.function.Function;
 public class DataController {
 
     @Setter private UsersModel currentUser;
-    @Setter private TampilanUtamaController utamaController;
-    @Setter private String modeAwal = "Pasien";
 
     @FXML private Label lblNamaData;
     @FXML private Button btnTambahData, btnEditData;
     @FXML private HBox menu;
     @FXML private TextField txtCariData;
-    @FXML private TableView tblData;
+    @FXML private TableView<?> tblData;
 
     public void setAsRiwayatDiagnosa(){
         tampilkanRiwayatDiagnosa();
@@ -91,7 +89,7 @@ public class DataController {
         tblData.refresh();
     }
 
-    @FXML private void showDataAturan() throws SQLException {
+    @FXML private void showDataAturan() {
         showButton();
         tampilkanDataAturan();
         tblData.refresh();
@@ -147,6 +145,7 @@ public class DataController {
         setTableData(FXCollections.observableArrayList(new GejalaDAO().getAllGejala()), "Data Gejala");
     }
 
+    @SuppressWarnings({"rawtypes"})
     public void tampilkanRiwayatDiagnosa() {
         jenisDataAktif = JenisData.RIWAYAT;
         tblData.getColumns().clear();
@@ -160,17 +159,18 @@ public class DataController {
                 new SimpleStringProperty(cellData.getValue().getPenyakitFormated()));
         colPenyakit.setCellFactory(tc -> createWrappingCell());
         colPenyakit.prefWidthProperty().bind(tblData.widthProperty().multiply(0.15));
-        tblData.getColumns().addAll(
+        ((TableView) tblData).getColumns().addAll(
             createResizableColumn("ID", "idRiwayat", 5),
             createResizableColumn("Nama Pasien", "namaPasien", 20),
-            colPenyakit,
-            colGejala,
+                colPenyakit,
+             colGejala,
             createResizableColumn("Tanggal Diagnosa", "tglDiagnosa", 15),
             createResizableColumn("Dokter", "namaDokter", 15)
         );
         setTableData(FXCollections.observableArrayList(new RiwayatDAO().getRiwayat()), "Data Riwayat Diagnosa");
     }
 
+    @SuppressWarnings({"rawtypes"})
     public void tampilkanDataAturan() {
         jenisDataAktif = JenisData.ATURAN;
         tblData.getColumns().clear();
@@ -189,8 +189,10 @@ public class DataController {
                 new SimpleStringProperty(String.valueOf(cellData.getValue().getGejalaFormated()))
         );
         colIdPenyakit.setCellFactory(tc -> createWrappingCell());
-        tblData.getColumns().addAll(
-                colIdAturan, colIdPenyakit, colIDGejala
+        ((TableView) tblData).getColumns().addAll(
+                colIdAturan,
+                colIdPenyakit,
+                colIDGejala
         );
         try {
             setTableData(FXCollections.observableArrayList(new KnowladgeDAO().getAllAturan()), "Data Aturan");
@@ -199,23 +201,41 @@ public class DataController {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     private void cariData(String keyword) {
         try {
             if (jenisDataAktif == JenisData.PASIEN) {
-                ObservableList<Pasien> filtered = FXCollections.observableArrayList(new PasienDAO().searchPasien(keyword));
-                tblData.setItems(filtered);
+                PasienDAO pasienDAO = new PasienDAO();
+                ObservableList<Pasien> allPasien = FXCollections.observableArrayList();
+                try {
+                    allPasien.addAll(pasienDAO.getAllPasien());
+                    if (keyword != null && !keyword.trim().isEmpty()) {
+                        String lowerKeyword = keyword.toLowerCase();
+                        ObservableList<Pasien> filtered = allPasien.filtered(pasien ->
+                                pasien.getNamaPasien().toLowerCase().contains(lowerKeyword) ||
+                                        pasien.getNoTlpPasien().toLowerCase().contains(keyword) ||
+                                        pasien.getAlamatPasien().toLowerCase().contains(keyword) ||
+                                        pasien.getNik().toLowerCase().contains(keyword)
+                        );
+                        ((TableView) tblData).setItems(filtered);
+                    } else {
+                        ((TableView) tblData).setItems(allPasien);
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             } else if (jenisDataAktif == JenisData.RIWAYAT) {
                 ObservableList<Riwayat> filteredRiwayat = FXCollections.observableArrayList(new RiwayatDAO().searchRiwayat(keyword));
-                tblData.setItems(filteredRiwayat);
+                ((TableView) tblData).setItems(filteredRiwayat);
             } else if (jenisDataAktif == JenisData.PENYAKIT) {
                 ObservableList<Penyakit> filteredPenyakit = FXCollections.observableArrayList(new PenyakitDAO().searchPenyakit(keyword));
-                tblData.setItems(filteredPenyakit);
+                ((TableView) tblData).setItems(filteredPenyakit);
             } else if (jenisDataAktif == JenisData.GEJALA) {
                 ObservableList<Gejala> filterGejala = FXCollections.observableArrayList(new GejalaDAO().searchGejala(keyword));
-                tblData.setItems(filterGejala);
+                ((TableView) tblData).setItems(filterGejala);
             } else if (jenisDataAktif == JenisData.ATURAN) {
                 ObservableList<Aturan> filterAturan = FXCollections.observableArrayList(new KnowladgeDAO().searchAturan(keyword));
-                tblData.setItems(filterAturan);
+                ((TableView) tblData).setItems(filterAturan);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -277,10 +297,10 @@ public class DataController {
             case PASIEN:
                 editData(
                         "/com/example/appsaldi/view/form/formeditpasien.fxml",
-                        FormEditPasienController.class,
                         controller -> {
-                            controller.setDataPasien((Pasien) tblData.getSelectionModel().getSelectedItem());
-                            controller.setDataController(this);
+                            FormEditPasienController cp = (FormEditPasienController) controller;
+                            cp.setDataPasien((Pasien) tblData.getSelectionModel().getSelectedItem());
+                            cp.setDataController(this);
                         },
                         this::tampilkanDataPasien
                 );
@@ -288,8 +308,10 @@ public class DataController {
             case PENYAKIT:
                 editData(
                         "/com/example/appsaldi/view/form/formdatapenyakit.fxml",
-                        FormPenyakitController.class,
-                        controller -> controller.setDataPenyakit((Penyakit) tblData.getSelectionModel().getSelectedItem()),
+                        controller -> {
+                            FormPenyakitController c = (FormPenyakitController) controller;
+                            c.setDataPenyakit((Penyakit) tblData.getSelectionModel().getSelectedItem());
+                        },
                         () -> {
                             try {
                                 tampilkanDataPenyakit();
@@ -302,8 +324,10 @@ public class DataController {
             case GEJALA:
                 editData(
                         "/com/example/appsaldi/view/form/formdatagejala.fxml",
-                        FormGejalaController.class,
-                        controller -> controller.setDataGejala((Gejala) tblData.getSelectionModel().getSelectedItem()),
+                        controller -> {
+                            FormGejalaController c = (FormGejalaController) controller;
+                            c.setDataGejala((Gejala) tblData.getSelectionModel().getSelectedItem());
+                        },
                         () -> {
                             try {
                                 tampilkanDataGejala();
@@ -316,8 +340,10 @@ public class DataController {
             case RIWAYAT:
                 editData(
                         "/com/example/appsaldi/view/form/formriwayat.fxml",
-                        FormRiwayatController.class,
-                        controller -> Platform.runLater(() -> controller.setRiwayat((Riwayat) tblData.getSelectionModel().getSelectedItem())),
+                        controller -> {
+                            FormRiwayatController c = (FormRiwayatController) controller;
+                            Platform.runLater(() -> c.setRiwayat((Riwayat) tblData.getSelectionModel().getSelectedItem()));
+                        },
                         this::tampilkanRiwayatDiagnosa
                 );
                 break;
@@ -325,8 +351,10 @@ public class DataController {
             case ATURAN:
                 editData(
                         "/com/example/appsaldi/view/form/formdataaturan.fxml",
-                        FormAturanController.class,
-                        controller -> Platform.runLater(() -> controller.setDataAturan((Aturan) tblData.getSelectionModel().getSelectedItem())),
+                        controller -> Platform.runLater(() -> {
+                            FormAturanController c = (FormAturanController) controller;
+                            c.setDataAturan((Aturan) tblData.getSelectionModel().getSelectedItem());
+                        }),
                         this::tampilkanDataAturan
                 );
                 break;
@@ -394,7 +422,7 @@ public class DataController {
         }
     }
 
-    private <T> void handleDelete(String jenis, Object selectedItem, Function<Object, Object> getId, Consumer<Object> deleteFunction) {
+    private void handleDelete(String jenis, Object selectedItem, Function<Object, Object> getId, Consumer<Object> deleteFunction) {
         if (selectedItem == null) {
             AlertUtils.showAlert(Alert.AlertType.WARNING, "Peringatan", "Silahkan pilih data terlebih dahulu");
             return;
@@ -427,13 +455,15 @@ public class DataController {
 
 
     private <T> TableCell<T, String> createWrappingCell() {
-        return new TableCell<T, String>() {
+        return new TableCell<>() {
             private final Text text;
+
             {
                 text = new Text();
                 text.wrappingWidthProperty().bind(widthProperty().subtract(10));
                 text.getStyleClass().add("wrapped-text");
             }
+
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -462,8 +492,9 @@ public class DataController {
         return col;
     }
 
+    @SuppressWarnings({"rawtypes"})
     private <T> void setTableData(ObservableList<T> data, String labelText) {
-        tblData.setItems(data);
+        ((TableView) tblData).setItems(data);
         lblNamaData.setText(labelText);
     }
 
@@ -497,7 +528,6 @@ public class DataController {
 
     private <T> void editData(
             String fxmlPath,
-            Class<T> clazz,
             Consumer<T> controllerConsumer,
             Runnable afterShow
     ) {

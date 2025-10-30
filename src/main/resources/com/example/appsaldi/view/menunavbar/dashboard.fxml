@@ -2,7 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -60,11 +62,14 @@
                               <Insets right="15.0" />
                            </HBox.margin>
                         </VBox>
-                        <PieChart fx:id="pieChart" prefWidth="400.0" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </PieChart>
+                        <BarChart fx:id="barChartUmur" title=" Statistik Pasien Berdasarkan Umur">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis fx:id="yAxis" side="LEFT" />
+                          </yAxis>
+                        </BarChart>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -73,7 +78,7 @@
                         <Insets left="25.0" right="15.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <HBox prefHeight="49.0" prefWidth="670.0" VBox.vgrow="NEVER">
+                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="670.0" VBox.vgrow="NEVER">
                      <children>
                         <Button fx:id="btnRegistrasiPasienBaru" alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="30.0" layoutY="20.0" mnemonicParsing="false" onAction="#showFormRegistrasiBaru" styleClass="colored-button" text="Register Pasien Baru" HBox.hgrow="ALWAYS">
                            <graphic>

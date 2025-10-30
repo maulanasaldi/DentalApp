@@ -91,7 +91,7 @@ public class DiagnosaDAO {
             }
         }
 
-        return idRiwayatDiagnosa; // kembalikan ID dari riwayat diagnosa yang baru disimpan
+        return idRiwayatDiagnosa;
     }
 
     public void simpanRiwayatPenyakit(int idRiwayatDiagnosa, List<Integer> idPenyakitList) throws SQLException {

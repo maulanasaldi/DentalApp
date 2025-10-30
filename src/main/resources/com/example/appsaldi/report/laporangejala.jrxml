@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporangejala" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c627e1b-6373-480f-8916-6deb14f5e328">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sistem Pakar"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM gejala]]>
+	</queryString>
+	<field name="id_gejala" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_gejala"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_gejala"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="gejala"/>
+	</field>
+	<field name="gejala" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="gejala"/>
+		<property name="com.jaspersoft.studio.field.label" value="gejala"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="gejala"/>
+	</field>
+	<group name="id_gejala">
+		<groupExpression><![CDATA[$F{id_gejala}]]></groupExpression>
+	</group>
+	<group name="gejala">
+		<groupExpression><![CDATA[$F{gejala}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="117" splitType="Stretch">
+			<staticText>
+				<reportElement x="109" y="0" width="446" height="59" forecolor="#003399" uuid="bc6ed771-f79f-4c74-aa32-5588f63060df"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[YOHANA CHRISTIANA
+DENTAL CLINIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="59" width="446" height="40" uuid="d02029d3-e077-422b-b4fe-7468eaa550b8"/>
+				<box leftPadding="50" rightPadding="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Jl. M. Kahfi 1. 25D3, RT.8/RW.4, Jagakarsa, Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibu Kota Jakarta 12630]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="100" height="100" uuid="55728b36-dffb-4551-8d6b-6698ed2b4e4b"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="116" width="555" height="1" uuid="76b54bb8-5283-443c-9d14-2f1c06d6139d"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#003399"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="18" width="90" height="20" uuid="c89e91f1-07d4-44fc-bc12-edc880bfbc2a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Lampiran	:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="18" width="130" height="20" uuid="051c1083-0b25-4071-84c2-3ab9d88aad38"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Laporan data gejala]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="0" width="515" height="30" uuid="da1b8ce3-4ffa-4ef3-be63-d758c06d1ece">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1f14ab4-c987-48ae-978d-40e97f49d7fd"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gejala]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="40" height="30" uuid="22ce0855-c9a0-4e99-b065-5128fa4f581b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a18f21de-9b05-4561-ba24-979eb1c894f7"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="515" height="30" uuid="30b092bf-0739-4014-9224-3bd3d05187f7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1f14ab4-c987-48ae-978d-40e97f49d7fd"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{gejala}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="40" height="30" uuid="ac2a7285-8178-4df3-a90e-24c4786b395b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a18f21de-9b05-4561-ba24-979eb1c894f7"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{id_gejala}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement x="350" y="80" width="180" height="18" uuid="ea58bcde-9ca2-4e32-8754-3960e7fc3cb8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[drg. Yohana Christina]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="350" y="0" width="180" height="18" uuid="2817a417-27d4-440e-8bcf-4f0b3a181da8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jakarta, " + new SimpleDateFormat("EEEE, dd MMMM yyyy", new Locale("id", "ID")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="350" y="18" width="180" height="18" uuid="6ebce033-2e93-4dc9-9a78-4d0c5a35cfd7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Manager]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporanpasien" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="67194f11-9e2e-4e45-9cc6-711558914d6f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sistem Pakar"/>
+	<parameter name="TanggalMulai" class="java.util.Date"/>
+	<parameter name="TanggalSelesai" class="java.util.Date"/>
+	<parameter name="id_riwayat_diagnosa" class="java.lang.String"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<queryString language="SQL">
+		<![CDATA[select * from pasien
+WHERE tgl_pendaftaran BETWEEN
+$P{TanggalMulai} AND
+$P{TanggalSelesai}]]>
+	</queryString>
+	<field name="id_pasien" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_pasien"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_pasien"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<field name="nama_pasien" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_pasien"/>
+		<property name="com.jaspersoft.studio.field.label" value="nama_pasien"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<field name="tgl_lahir" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tgl_lahir"/>
+		<property name="com.jaspersoft.studio.field.label" value="tgl_lahir"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<field name="nik" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nik"/>
+		<property name="com.jaspersoft.studio.field.label" value="nik"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<field name="pekerjaan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="pekerjaan"/>
+		<property name="com.jaspersoft.studio.field.label" value="pekerjaan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<field name="no_tlpn_pasien" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="no_tlpn_pasien"/>
+		<property name="com.jaspersoft.studio.field.label" value="no_tlpn_pasien"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<field name="alamat_pasien" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="alamat_pasien"/>
+		<property name="com.jaspersoft.studio.field.label" value="alamat_pasien"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<field name="tgl_pendaftaran" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="tgl_pendaftaran"/>
+		<property name="com.jaspersoft.studio.field.label" value="tgl_pendaftaran"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+	</field>
+	<variable name="CURRENT_DATE" class="java.util.Date">
+		<initialValueExpression><![CDATA[new java.util.Date()]]></initialValueExpression>
+	</variable>
+	<group name="id_pasien">
+		<groupExpression><![CDATA[$F{id_pasien}]]></groupExpression>
+	</group>
+	<group name="nama_pasien">
+		<groupExpression><![CDATA[$F{nama_pasien}]]></groupExpression>
+	</group>
+	<group name="tgl_lahir">
+		<groupExpression><![CDATA[$F{tgl_lahir}]]></groupExpression>
+	</group>
+	<group name="nik">
+		<groupExpression><![CDATA[$F{nik}]]></groupExpression>
+	</group>
+	<group name="pekerjaan">
+		<groupExpression><![CDATA[$F{pekerjaan}]]></groupExpression>
+	</group>
+	<group name="no_tlpn_pasien">
+		<groupExpression><![CDATA[$F{no_tlpn_pasien}]]></groupExpression>
+	</group>
+	<group name="alamat_pasien">
+		<groupExpression><![CDATA[$F{alamat_pasien}]]></groupExpression>
+	</group>
+	<group name="tgl_pendaftaran">
+		<groupExpression><![CDATA[$F{tgl_pendaftaran}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="117" splitType="Stretch">
+			<staticText>
+				<reportElement x="109" y="0" width="446" height="59" forecolor="#003399" uuid="b8447633-1a3c-4b59-8a0d-ed8ddfc3ba4c"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[YOHANA CHRISTIANA
+DENTAL CLINIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="59" width="446" height="40" uuid="98960e25-d4a7-4473-86ba-bdce9b74588b"/>
+				<box leftPadding="50" rightPadding="50"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Jl. M. Kahfi 1. 25D3, RT.8/RW.4, Jagakarsa, Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibu Kota Jakarta 12630]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="100" height="100" uuid="14570467-6fc1-4b9a-b603-dccabfc960e4"/>
+				<imageExpression class="java.io.InputStream"><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="116" width="555" height="1" uuid="290ae300-6d0a-4950-b86b-ff4e4d72effa"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#003399"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="90" y="17" width="130" height="20" uuid="f2c38e2f-6faf-4a41-8683-a08b4819550a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Laporan data pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="37" width="90" height="20" uuid="9502502f-829f-4d5e-8cba-14df2bd9bed5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Periode	:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="17" width="90" height="20" uuid="7e433f74-e3b7-475f-9ff8-b8ce00d357ae"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Lampiran	:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="90" y="37" width="41" height="20" uuid="0faf50b7-23c4-4e5a-a117-c6914f2a8125">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TanggalMulai}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy">
+				<reportElement x="161" y="37" width="41" height="20" uuid="fbeb0bb5-6f27-4952-8d6d-83eb7341330d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TanggalSelesai}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="131" y="37" width="30" height="20" uuid="33a9f4ce-48e1-4f04-af67-48a3da0fa6c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[s/d]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="29" y="0" width="111" height="30" uuid="8bf37ac8-7e1a-4779-9d5d-d5273daaaca2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6cafd5be-318c-45b6-bf26-db146ebfa69c"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="71" height="30" uuid="c8b3263b-9d8f-43d8-8afd-3b14705758ab">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="59520ffd-f0fb-4c02-bc5c-2745be43a0e3"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tgl. Lahir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="211" y="0" width="100" height="30" uuid="26f6cc6d-4225-4273-a251-582bc7609115">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7574478a-96ac-4315-8e97-2fa0e25ee0a3"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="0" width="80" height="30" uuid="3f202eb5-fb36-4177-815a-ade042cde7ac">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0353a433-129c-4e24-881b-d451e306986c"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pekerjaan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="0" width="78" height="30" uuid="c8f9883f-deaa-4619-befb-cab3ac80b361">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ced7ef7e-5063-4f81-b280-2739e525e0ea"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Telepon]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="469" y="0" width="86" height="30" uuid="89cd152d-d5da-4064-8e82-904f39ddf237">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="851848ec-7319-428a-ad1c-075045de5cc1"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="29" height="30" uuid="1be22b75-d5e1-46c8-ada7-9fe4277cd32a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0ddf7c81-8f2e-4018-921c-b38f176cd3ea"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="29" y="0" width="111" height="30" uuid="7fb2a067-6fc2-43b0-acad-8e9cefb3c89c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6cafd5be-318c-45b6-bf26-db146ebfa69c"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{nama_pasien}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="dd-MM-yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="140" y="0" width="71" height="30" uuid="23fb6006-354e-47b0-a17c-8eb805e2c39c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="59520ffd-f0fb-4c02-bc5c-2745be43a0e3"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="211" y="0" width="100" height="30" uuid="10ba8a05-4725-4959-bbae-78910e46ecfa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7574478a-96ac-4315-8e97-2fa0e25ee0a3"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{nik}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="311" y="0" width="80" height="30" uuid="905ddce8-575f-431e-816d-ad4c4c759793">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0353a433-129c-4e24-881b-d451e306986c"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{pekerjaan}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="391" y="0" width="78" height="30" uuid="6537cbc8-238f-4877-8eaa-a48cba23cd67">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ced7ef7e-5063-4f81-b280-2739e525e0ea"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{no_tlpn_pasien}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="469" y="0" width="86" height="30" uuid="51276e06-be12-4440-8165-93aa42f7a400">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="851848ec-7319-428a-ad1c-075045de5cc1"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{alamat_pasien}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="29" height="30" uuid="7e70560c-000b-4989-974c-e9ab96a6e9a5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0ddf7c81-8f2e-4018-921c-b38f176cd3ea"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$F{id_pasien}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="39" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement x="350" y="80" width="180" height="18" uuid="c1cd88de-710a-4aea-bc47-bb7b7a9648af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[drg. Yohana Christina]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="350" y="0" width="180" height="18" uuid="4b70ed2d-e77c-40e2-a245-74eb46c59f77"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jakarta, " + new SimpleDateFormat("EEEE, dd MMMM yyyy", new Locale("id", "ID")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="350" y="18" width="180" height="18" uuid="855825a7-9b5c-4586-8785-e850e958dfc2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Manager]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="67" splitType="Stretch"/>
+	</summary>
+</jasperReport>

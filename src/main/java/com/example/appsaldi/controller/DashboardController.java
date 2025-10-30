@@ -9,23 +9,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Setter;
-
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class DashboardController {
 
@@ -33,25 +29,22 @@ public class DashboardController {
     @Setter private TampilanUtamaController utamaController;
 
     @FXML private Button btnRegistrasiPasienBaru, btnRegistrasiPasienLama, btnStartDiagnosis, btnViewHistory;
-    @FXML private PieChart pieChart;
+    @FXML private BarChart<String, Number> barChartUmur;
     @FXML private TextField txtCari;
-    @FXML private TableView pasien;
+    @FXML private TableView<Pasien> pasien;
     @FXML private Label lblJumlahPasien, lblPenyakitTerbanyak;
-    @FXML private HBox mainBox;
 
     @FXML
     public void initialize() {
-        tampilkanPieChartPasienByPekerjaan();
         tampilkanDataPasien();
         tampilkanStatistikDiagnosa();
+        tampilkanStatistikUmur();
         Platform.runLater(this::sembunyikanTombolJikaResepsionis);
         initializeCariListener();
     }
 
     private void initializeCariListener() {
-        txtCari.textProperty().addListener((observable, oldValue, newValue) -> {
-            cariDataPasien(newValue);
-        });
+        txtCari.textProperty().addListener((observable, oldValue, newValue) -> cariDataPasien(newValue));
     }
 
     private void cariDataPasien(String keyword) {
@@ -175,25 +168,18 @@ public class DashboardController {
         }
     }
 
-    private void tampilkanPieChartPasienByPekerjaan() {
-        PasienDAO pasienDAO = new PasienDAO();
-        Map<String, Integer> dataPekerjaan = pasienDAO.getJumlahPasienPerPekerjaan();
-        ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
-        for (Map.Entry<String, Integer> entry : dataPekerjaan.entrySet()) {
-            String pekerjaan = entry.getKey();
-            int jumlah = entry.getValue();
-            String label = String.format("%s\n%d pasien", pekerjaan, jumlah);
-            chartData.add(new PieChart.Data(label, jumlah));
+    private void tampilkanStatistikUmur() {
+        Map<String, Integer> dataUmur = PasienDAO.getStatistikPasienBerdasarkanUmur();
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Statistik Umur Pasien");
+
+        for (Map.Entry<String, Integer> entry : dataUmur.entrySet()) {
+            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
         }
-        pieChart.setData(chartData);
-        pieChart.setTitle("Statistik Pasien Berdasarkan Pekerjaan");
-        pieChart.setLabelsVisible(true);
-        pieChart.setLegendVisible(true);
-        Platform.runLater(() -> {
-            for (Node node : pieChart.lookupAll("Text.chart-pie-label")) {
-                node.setStyle("-fx-font-family: 'Poppins'; -fx-font-size: 12px; -fx-text-alignment: center;");
-            }
-        });
+
+        barChartUmur.getData().clear();
+        barChartUmur.getData().add(series);
     }
 
     public void tampilkanDataPasien() {
@@ -201,11 +187,10 @@ public class DashboardController {
         pasien.getColumns().addAll(
                 createResizableColumn("ID", "idPasien", 0.05),
                 createResizableColumn("Nama Pasien", "namaPasien", 0.20),
-                createResizableColumn("Tanggal Daftar", "tglPendaftaran", 0.10),
-                createResizableColumn("Status Diagnosa", "statusDiagnosa", 0.13),
-                createResizableColumn("Pekerjaan", "pekerjaan", 0.15),
+                createResizableColumn("Tanggal Daftar", "tglPendaftaran", 0.15),
+                createResizableColumn("Pekerjaan", "pekerjaan", 0.20),
                 createResizableColumn("No. Telepon", "noTlpPasien", 0.12),
-                createResizableColumn("Alamat", "alamatPasien", 0.25)
+                createResizableColumn("Alamat", "alamatPasien", 0.28)
         );
         PasienDAO pasienDAO = new PasienDAO();
         ObservableList<Pasien> data = FXCollections.observableArrayList();

@@ -22,8 +22,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -34,11 +36,10 @@ import java.util.Map;
 public class LaporanController {
 
     @Setter private UsersModel currentUser;
-    @Setter private TampilanUtamaController utamaController;
 
     @FXML private HBox menu;
     @FXML private Label lblNamaData, lblSampai;
-    @FXML private TableView tblData;
+    @FXML private TableView<Object> tblData;
     @FXML private DatePicker dpTglAwal, dpTglAkhir;
 
     public enum JenisData {
@@ -46,6 +47,7 @@ public class LaporanController {
     }
 
     private JenisData jenisDataAktif;
+    InputStream logoStream = getClass().getResourceAsStream("/com/example/appsaldi/dental.app");
 
     @FXML public void initialize() {
         Platform.runLater(() -> {
@@ -149,11 +151,13 @@ public class LaporanController {
     public void tampilkanDataAturan() {
         jenisDataAktif = LaporanController.JenisData.ATURAN;
         tblData.getColumns().clear();
+
         TableColumn<Aturan, String> colIdAturan = new TableColumn<>("ID Aturan");
         colIdAturan.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.valueOf(cellData.getValue().getIdAturan()))
         );
         colIdAturan.setCellFactory(tc -> createWrappingCell());
+
         TableColumn<Aturan, String> colIdPenyakit = new TableColumn<>("ID Penyakit");
         colIdPenyakit.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.valueOf(cellData.getValue().getIdPenyakit()))
@@ -165,7 +169,9 @@ public class LaporanController {
         );
         colIdPenyakit.setCellFactory(tc -> createWrappingCell());
         tblData.getColumns().addAll(
-                colIdAturan, colIdPenyakit, colIDGejala
+                (TableColumn<Object, ?>) (TableColumn<?, ?>) colIdAturan,
+                (TableColumn<Object, ?>) (TableColumn<?, ?>) colIdPenyakit,
+                (TableColumn<Object, ?>) (TableColumn<?, ?>) colIDGejala
         );
         try {
             setTableData(FXCollections.observableArrayList(new KnowladgeDAO().getAllAturan()), "Data Aturan");
@@ -193,8 +199,8 @@ public class LaporanController {
         tblData.getColumns().addAll(
                 createResizableColumn("ID", "idRiwayat", 5),
                 createResizableColumn("Nama Pasien", "namaPasien", 20),
-                colPenyakit,
-                colGejala,
+                (TableColumn<Object, ?>) (TableColumn<?, ?>) colPenyakit,
+                (TableColumn<Object, ?>) (TableColumn<?, ?>) colGejala,
                 createResizableColumn("Tanggal Diagnosa", "tglDiagnosa", 15),
                 createResizableColumn("Dokter", "namaDokter", 20)
         );
@@ -203,7 +209,7 @@ public class LaporanController {
     }
 
     private <T> TableCell<T, String> createWrappingCell() {
-        return new TableCell<T, String>() {
+        return new TableCell<>() {
             private final Text text;
 
             {
@@ -242,7 +248,7 @@ public class LaporanController {
     }
 
     private <T> void setTableData(ObservableList<T> data, String labelText) {
-        tblData.setItems(data);
+        tblData.setItems((ObservableList<Object>) data);
         lblNamaData.setText(labelText);
     }
 
@@ -267,7 +273,7 @@ public class LaporanController {
 
                 switch (jenisDataAktif) {
                     case PASIEN:
-                        reportPath = "/com/example/appsaldi/report/laporanpasien.jasper";
+                        reportPath = "/com/example/appsaldi/report/laporanpasien.jrxml";
                         if (dpTglAwal.getValue() != null && dpTglAkhir.getValue() != null) {
                             parameters.put("TanggalMulai", java.sql.Date.valueOf(dpTglAwal.getValue()));
                             parameters.put("TanggalSelesai", java.sql.Date.valueOf(dpTglAkhir.getValue()));
@@ -281,19 +287,19 @@ public class LaporanController {
                         break;
 
                     case PENYAKIT:
-                        reportPath = "/com/example/appsaldi/report/laporanpenyakit.jasper";
+                        reportPath = "/com/example/appsaldi/report/laporanpenyakit.jrxml";
                         break;
 
                     case GEJALA:
-                        reportPath = "/com/example/appsaldi/report/laporangejala.jasper";
+                        reportPath = "/com/example/appsaldi/report/laporangejala.jrxml";
                         break;
 
                     case ATURAN:
-                        reportPath = "/com/example/appsaldi/report/laporanaturan.jasper";
+                        reportPath = "/com/example/appsaldi/report/laporanaturan.jrxml";
                         break;
 
                     case RIWAYAT:
-                        reportPath = "/com/example/appsaldi/report/laporanriwayat.jasper";
+                        reportPath = "/com/example/appsaldi/report/laporanriwayat.jrxml";
                         if (dpTglAwal.getValue() != null && dpTglAkhir.getValue() != null) {
                             parameters.put("TanggalMulai", java.sql.Date.valueOf(dpTglAwal.getValue()));
                             parameters.put("TanggalSelesai", java.sql.Date.valueOf(dpTglAkhir.getValue()));
@@ -311,7 +317,12 @@ public class LaporanController {
                 if (reportStream == null) {
                     throw new RuntimeException("Laporan tidak ditemukan: " + reportPath);
                 }
-                JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, conn);
+
+                JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+                parameters.put("logo", logoStream);
+
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
 
                 // Buka JasperViewer di thread UI
                 Platform.runLater(() -> {
