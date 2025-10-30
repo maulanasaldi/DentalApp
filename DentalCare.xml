@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\mmaul\OneDrive\Documents\Development\DentalApp\DentalApp.jar</jar>
+  <outfile>C:\Users\mmaul\OneDrive\Documents\Development\DentalApp\Dental Care.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\mmaul\OneDrive\Documents\Development\DentalApp\LogoSaldi.ico</icon>
+  <classPath>
+    <mainClass>com.example.appsaldi.Main</mainClass>
+    <cp>C:\Users\mmaul\OneDrive\Documents\Development\DentalApp\lib</cp>
+  </classPath>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>true</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>23</minVersion>
+    <maxVersion></maxVersion>
+    <opt>--module-path &quot;C:\javafx-sdk-24.0.1\lib&quot; --add-modules javafx.controls,javafx.fxml -jar DentalApp.jar</opt>
+  </jre>
+</launch4jConfig>
